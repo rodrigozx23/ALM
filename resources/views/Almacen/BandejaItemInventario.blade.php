@@ -11,7 +11,7 @@
                 <br />
 
                 <div id="searchPanel" style="padding: 0 10px 0 10px;">
-                    <div class="row">
+
                     <div class="row">
                         <div class="form-group">
                             <label>Nombre:</label>
@@ -26,7 +26,7 @@
                             </select>
                         </div>
                     </div>
-                    </div>
+
                 </div>
                 <br />
                 <div class="form-group">
@@ -82,7 +82,7 @@
                                         <input type="text" class="form-control" name="invi_dbl_peso_neto"  >
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button onClick="onSalir(this)" class="btn btn-primary">Cerrar</button>
+                                    <button onClick="onSalir(this)"  type="button" class="btn btn-primary">Cerrar</button>
                                 </form>
                             </div>  
                         </div>
@@ -121,7 +121,7 @@
                                         <input type="text" class="form-control" name="invi_dbl_peso_neto" id="Uinvi_dbl_peso_neto" >
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button onClick="onSalir(this)" class="btn btn-primary">Cerrar</button>
+                                    <button onClick="onSalir(this)"  type="button" class="btn btn-primary">Cerrar</button>
                                 </form>
                             </div>  
                         </div>

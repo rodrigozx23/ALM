@@ -4,18 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\ItemInventarioInterface as itemI;
+use App\Repositories\ProductoInterface as productoI;
+use App\Repositories\ProductoDetalleInterface as productodetalleI;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\item_inventario as invi;
+use App\Producto as pro;
+use App\ProductoDetalle as prod;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AlmacenController extends Controller
 {
     protected $iteminventarioObject;
-
-    public function __construct(itemI $ii)
+    protected $productoObject;
+    protected $productodetalleObject;
+    public function __construct(itemI $ii, productoI $p, productodetalleI $pd)
     {
         $this->iteminventarioObject = $ii;
+        $this->productoObject = $p;
+        $this->productodetalleObject = $pd;
     }
 
     public function getAllItems()
@@ -70,7 +78,7 @@ class AlmacenController extends Controller
       return response()->json($item_inventario);
     }
 
-   /**
+    /**
      * Store a new Item. Debe devolver una vista
      *
      * @param  Request $request
@@ -125,5 +133,121 @@ class AlmacenController extends Controller
       //$item_inventario->save();
       //return response()->json($item_inventario);
       return redirect('/Almacen');
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // PRODUCTO
+
+    public function getAllProductos()
+    {
+      return $this->productoObject->getAll();
+    }
+
+    public function listarProducto()
+    {
+      $Productos = $this->productoObject->getAll();
+      return response()
+            ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$Productos->toArray()]);
+    }
+
+    public function listarProductoDetalle($id)
+    { 
+
+      $ProductoDetalle =  DB::select('select * from tb_productos_detalle where pro_int_id=?', [$id] );
+      //var_dump($ProductoDetalle);
+      
+      return response()
+            ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$ProductoDetalle]);
+    }
+
+    public function ListarItemsInventario(Request $request)
+    {
+        $text = $request->input('text'); //$request->query('text');
+        //$iteminventario =  $this->iteminventarioObject->getAll();
+        $iteminventario =  DB::select('select * from tb_item_inventario where invi_str_nombre like ?', ["%{$text}%"] );
+        return response()
+            ->json(['data' =>$iteminventario], 200);
+    }
+
+    /**
+     * Store a new Item. Debe devolver una vista
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function storeProducto(Request $request)
+    {
+        $Producto = new pro;
+        $mytime =Carbon::now();      
+        
+        $ProductoInsert = new pro;  
+
+        $ProductoInsert->pro_str_nombre = $request->input('pro_str_nombre');
+        $ProductoInsert->pro_bit_estado = 1;
+        $ProductoInsert->pro_dat_fecha_creacion = $mytime;
+        $ProductoInsert->pro_dat_fecha_modificacion = $mytime;
+        $ProductoInsert->pro_str_usuario_creacion = "Admin";
+        $ProductoInsert->pro_str_usuario_modificacion =  "Admin";
+        $ProductoInsert->pro_dbl_precio_venta = $request->input('pro_dbl_precio_venta');    
+        $ProductoInsert->pro_dbl_costo_produccion = $request->input('pro_dbl_costo_produccion');
+
+        $this->productoObject->create($ProductoInsert->toArray());       
+        return redirect('/Producto');
+
+    }
+
+        /**
+     * Store a new Item. Debe devolver una vista
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function updateProducto(Request $request)
+    {
+        $Producto= new pro;
+        $mytime =Carbon::now();
+
+        $id_Producto = $request->input('pro_int_id');
+        $ProductoUpdate = new pro;  
+        $ProductoUpdate->pro_str_nombre = $request->input('pro_str_nombre');
+        $ProductoUpdate->pro_bit_estado = 1;
+        $ProductoUpdate->pro_dat_fecha_modificacion = $mytime;
+        $ProductoUpdate->pro_str_usuario_modificacion =  "Admin";
+        $ProductoUpdate->pro_dbl_precio_venta = $request->input('pro_dbl_precio_venta');    
+        $ProductoUpdate->pro_dbl_costo_produccion = $request->input('pro_dbl_costo_produccion');
+
+        $this->productoObject->update($id_Producto, $ProductoUpdate->toArray());         
+        return redirect('/Producto');
+
+    }
+
+    /**
+     * Store a new Item. Debe devolver una vista
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function storeProductoDetalle(Request $request)
+    {
+        $ProductoDetalle = new prod;
+        $mytime =Carbon::now();      
+        
+        $ProductoDetalleInsert = new prod;  
+        $ProductoDetalleInsert->invi_int_id = 1;
+        $ProductoDetalleInsert->pro_int_id = $request->input('pro_int_id');
+        $ProductoDetalleInsert->prod_str_nombre = $request->input('prod_str_nombre');
+        $ProductoDetalleInsert->prod_bit_estado = 1;
+        $ProductoDetalleInsert->prod_int_item = 1;
+        $ProductoDetalleInsert->prod_dat_usuario_creacion = $mytime;
+        $ProductoDetalleInsert->prod_dat_usuario_modificacion = $mytime;
+        $ProductoDetalleInsert->prod_str_usuario_creacion = "Admin";
+        $ProductoDetalleInsert->prod_str_usuario_modificacion =  "Admin";
+        $ProductoDetalleInsert->prod_dbl_costo_produccion_item = $request->input('prod_dbl_costo_produccion_item');    
+        $ProductoDetalleInsert->prod_dbl_cantidad_item = $request->input('prod_dbl_cantidad_item');
+        $ProductoDetalleInsert->prod_int_tipo_medida_salida = $request->input('prod_int_tipo_medida_salida');
+
+        $this->productodetalleObject->create($ProductoDetalleInsert->toArray());       
+        return redirect('/Producto');
+
     }
 }
