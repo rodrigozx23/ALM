@@ -292,7 +292,7 @@ input[type=submit] {
             });
 
             $('#divProductoDetalleIModal').on('hidden.bs.modal', function (e) {
-                $("#divProductoDetalleIModal").empty();
+                //$("#divProductoDetalleIModal").empty();
             });         
             
 

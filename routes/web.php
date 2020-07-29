@@ -49,3 +49,10 @@ Route::get('listarProductoDetalle/{id}', 'AlmacenController@listarProductoDetall
 Route::post('guardarProductoDetalle', 'AlmacenController@storeProductoDetalle');
 
 Route::post('listarItems', 'AlmacenController@ListarItemsInventario');
+
+//ABRE EL MODULO DE PEDIDO
+Route::get('/Pedido', function () {
+    return view('/Pedidos/BandejaPedido');
+});
+
+Route::get('/PP', 'AlmacenController@listarProducto');

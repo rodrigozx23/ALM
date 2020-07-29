@@ -13,17 +13,24 @@
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+     div[name=techo] {    
+          padding:1em;
+     }
+     </style>
  </head>
-    
+     
     <body>
-       <div>
-           
+       <div name='techo'>             
+          <div class="container" >
+               @yield('AlmacenBandeja')      
+          </div>
+          <div class="container">
+               @yield('ProductoBandeja')      
+          </div>
+          <div class="container">
+            @yield('PedidoBandeja')      
        </div>
-       <div class="container" >
-            @yield('AlmacenBandeja')      
-       </div>
-       <div class="container">
-            @yield('ProductoBandeja')      
        </div>
         @yield('bandejajs')
     </body>
