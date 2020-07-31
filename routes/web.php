@@ -55,4 +55,8 @@ Route::get('/Pedido', function () {
     return view('/Pedidos/BandejaPedido');
 });
 
-Route::get('/PP', 'AlmacenController@listarProducto');
+Route::post('/listarProducto', 'PedidoController@listarProducto');
+
+Route::post('guardarPedido', 'PedidoController@storePedido');
+
+Route::get('listarPedidoDetalle/{id}', 'PedidoController@listarPedidoDetalle');
