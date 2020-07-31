@@ -117,6 +117,7 @@ class PedidoController extends Controller
      */
     public function storePedido(Request $request)
     {
+        //$input = $request->all();
         $Pedido = new ped;
         $mytime =Carbon::now();      
         
@@ -144,7 +145,26 @@ class PedidoController extends Controller
 
         $this->pedidoObject->create($PedidoInsert->toArray());    
 
-        $insertedId = $id = DB::getPdo()->lastInsertId();    
+        $insertedId = $id = DB::getPdo()->lastInsertId(); 
+              
+        $PedidoDetalleInsert = new pedd;
+
+        $PedidoDetalleInsert->pedd_dbl_precio = $request->input('pedd_dbl_precio');
+        $PedidoDetalleInsert->pedd_int_cantidad =  $request->input('pedd_int_cantidad');
+        $PedidoDetalleInsert->ped_int_id = $insertedId;
+        $PedidoDetalleInsert->pro_int_id =  $request->input('pro_int_id');
+        $PedidoDetalleInsert->pedd_int_item =  1;
+        // ESTADOS DEL PEDIDO
+        $PedidoDetalleInsert->pedd_bit_cancelado = 0;
+        $PedidoDetalleInsert->pedd_int_estado_detalle = 1;
+        // AUDITORIA
+        $PedidoDetalleInsert->pedd_dat_fecha_creacion = $mytime;
+        $PedidoDetalleInsert->pedd_dat_fecha_modificacion = $mytime;
+        $PedidoDetalleInsert->pedd_str_usuario_creacion = "Admin";
+        $PedidoDetalleInsert->pedd_str_usuario_modificacion =  "Admin";
+
+        $this->pedidoDetalleObject->create($PedidoDetalleInsert->toArray());   
+
         return response()
             ->json(['data' =>$insertedId], 200);
 

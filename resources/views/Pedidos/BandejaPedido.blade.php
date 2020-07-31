@@ -71,9 +71,8 @@ input[type=submit] {
                             <div id="divContentProductoDetalle">    
                                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
                                     <row> 
-                                        <form id="CreatePedido" target="dummyframe"> 
-                                             @csrf                                 
-                                            <input class="form-control" name="pro_int_id" id="pro_id" hidden>
+                                        <form id="CreatePedido" target="dummyframe">                               
+                                            <input class="form-control" name="pro_int_id" id="pro_int_id" hidden>
                                             <input class="form-control" name="ped_int_id" id="ped_int_id" hidden>
                                             <div class="form-group autocomplete">                                    
                                                 <label for="pro_str_nombre" >Producto:</label>
@@ -82,7 +81,7 @@ input[type=submit] {
                                             <div class="form-group row">
                                                 <div class="col-md-6">
                                                     <label>Cantidad:</label>
-                                                    <input type="number" min="1" max="100" class="form-control" name="pedd_int_cantidad"  >
+                                                    <input type="number" min="1" max="100" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
                                                  </div>
                                                 <div class="col-md-6">
                                                     <label>Costo venta:</label>
@@ -164,13 +163,18 @@ input[type=submit] {
         var pedidoid =  $('#ped_int_id').val();
         // CREAR EL PEDIDO CAB,
         // RETORNE SU ID -> PARA VALIDAR LAS MODAS
-        if(pedidoid > 0){
-            //e.preventDefault();
+        var parametros = {              
+                "ped_int_id" : pedidoid,
+                "pro_int_id" : $('#pro_int_id').val(),
+                "pedd_int_cantidad" : $('#pedd_int_cantidad').val(),
+                "pedd_dbl_precio" : $('#pedd_dbl_precio').val(),
+        };
+        console.log(parametros);
+        if(pedidoid == null || pedidoid==""){
             $.ajax({
             type: 'POST',
             url: 'guardarPedido'+'?_token=' + '{{ csrf_token() }}',
-            data: $('#CreatePedido').serialize(),
-            contentType: 'application/json; charset=utf-8',
+            data: parametros,
             success: function (data) {
                 $('#ped_int_id').val(data.data);
             }
@@ -178,14 +182,13 @@ input[type=submit] {
         }else{
             $.ajax({
             type: 'POST',
-            url: 'AgregarPedidoDetalle'+'?_token=' + '{{ csrf_token() }}',
-            data: $('#CreatePedido').serialize(),
-            contentType: 'application/json; charset=utf-8',
+            url: 'agregarPedidoDetalle'+'?_token=' + '{{ csrf_token() }}',
+            data: parametros,
             success: function (data) {
                 //$('#ped_int_id').val(data.data);
             }
             });
-        }  
+        }   
         // CREAR EL PEDIDO DETALLE
         // AL CONFIRMAR EL PEDIDO SE AGREGUEN LOS IDS. y las CANTIDADES
     }
@@ -380,7 +383,7 @@ input[type=submit] {
     function guardaridItem(){             
                 debugger    
                 const productos = _ITEMS_PRODUCTO.filter((b) => { return b.pro_str_nombre ==  $("#pro_str_nombre").val()});
-                $("#pro_id").val(productos[0].pro_int_id);      
+                $("#pro_int_id").val(productos[0].pro_int_id);      
                 $("#pedd_dbl_precio").val(productos[0].pro_dbl_precio_venta);              
                 $("#pro_str_nombre").attr("readonly", true);
                 
