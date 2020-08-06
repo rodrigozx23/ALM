@@ -196,7 +196,7 @@ class AlmacenController extends Controller
 
     }
 
-        /**
+    /**
      * Store a new Item. Debe devolver una vista
      *
      * @param  Request $request
