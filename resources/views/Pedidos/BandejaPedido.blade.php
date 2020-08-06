@@ -81,7 +81,7 @@ input[type=submit] {
                                             <div class="form-group row">
                                                 <div class="col-md-6">
                                                     <label>Cantidad:</label>
-                                                    <input type="number" min="1" max="100" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
+                                                    <input type="number" min="1" max="100" value="1" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
                                                  </div>
                                                 <div class="col-md-6">
                                                     <label>Precio Unitario:</label>
@@ -92,7 +92,7 @@ input[type=submit] {
                                          </form>  
                                     </row>
                                     <row>
-                                        <table id=table="DetallePedido" class="table table-striped table-hover responsive">
+                                        <table id="tableDetallePedido" class="table table-striped table-hover responsive">
                                             <thead>
                                             <tr>
                                             <th>#</th>
@@ -134,6 +134,7 @@ input[type=submit] {
 
              $('#divProductoDetalleModal').on('shown.bs.modal', function () {
                 $("#divProductoDetalle").empty();
+                $('#pedd_int_cantidad').val("1");
                 PedidoDetalle = [];
             });
 
@@ -189,7 +190,7 @@ input[type=submit] {
         insertarDetalloPedido(parametros)
 
             $('#pro_int_id').val(""),
-            $('#pedd_int_cantidad').val(""),
+            $('#pedd_int_cantidad').val("1"),
             $('#pedd_dbl_precio').val(""),
             $('#pro_str_nombre').val(""),
             $("#pro_str_nombre").attr("readonly", false);
