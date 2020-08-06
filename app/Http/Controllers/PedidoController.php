@@ -118,7 +118,7 @@ class PedidoController extends Controller
     public function storePedido(Request $request)
     {
         //$input = $request->all();
-        $Pedido = new ped;
+      
         $mytime =Carbon::now();     
         $PedidoInsert = new ped;   
         $PedidoDetalleInsert = new pedd;                
@@ -133,7 +133,7 @@ class PedidoController extends Controller
             // ESTADOS DEL PEDIDO
             $PedidoInsert->ped_bit_cancelado = 0;
             $PedidoInsert->ped_bit_combo = 0;
-            $PedidoInsert->ped_int_estado_pedido = 1;
+            $PedidoInsert->ped_int_estado_pedido = 1; //CREADO
             $PedidoInsert->ped_int_estado = 1;
             // AUDITORIA
             $PedidoInsert->ped_int_empresa = 1;
@@ -142,15 +142,15 @@ class PedidoController extends Controller
             $PedidoInsert->ped_str_usuario_creacion = "Admin";
             $PedidoInsert->ped_str_usuario_modificacion =  "Admin";
 
-            $this->pedidoObject->create($PedidoInsert->toArray());    
+        $this->pedidoObject->create($PedidoInsert->toArray());    
 
-            $insertedId = $id = DB::getPdo()->lastInsertId();  
-            
-            //$select_data = $request->all();
-            $select_data =  (json_decode($request->getContent(), true));
-           
-            foreach ($select_data as $item)
-            {
+        $insertedId = $id = DB::getPdo()->lastInsertId();  
+        
+        //$select_data = $request->all();
+        $select_data =  (json_decode($request->getContent(), true));
+        $total_precio_venta = 0;
+        foreach ($select_data as $item)
+        {
             $PedidoDetalleInsert->pedd_dbl_precio = $item['Precio'] ;
             $PedidoDetalleInsert->pedd_int_cantidad = $item['Cantidad'] ;
             $PedidoDetalleInsert->ped_int_id = $insertedId;
@@ -159,13 +159,33 @@ class PedidoController extends Controller
             // ESTADOS DEL PEDIDO
             $PedidoDetalleInsert->pedd_bit_cancelado = 0;
             $PedidoDetalleInsert->pedd_int_estado_detalle = 1;
-             // AUDITORIA
+            // AUDITORIA
             $PedidoDetalleInsert->pedd_dat_fecha_creacion = $mytime;
             $PedidoDetalleInsert->pedd_dat_fecha_modificacion = $mytime;
             $PedidoDetalleInsert->pedd_str_usuario_creacion = "Admin";
             $PedidoDetalleInsert->pedd_str_usuario_modificacion =  "Admin";
+
+            $total_precio_venta += $PedidoDetalleInsert->pedd_dbl_precio;
+
             $this->pedidoDetalleObject->create($PedidoDetalleInsert->toArray());   
-            }
+        }
+
+        //CERRAR PRECIOS TOTALES.
+        $Pedido = new ped;
+        // MONTOS
+        $Pedido->ped_dbl_igv = 0;    
+        $Pedido->ped_dbl_isc = 0;
+        $Pedido->ped_dbl_descuento = 0;
+        $Pedido->ped_dbl_valor_neto = $total_precio_venta;// SUM()    
+
+        $Pedido->ped_dbl_venta_total = $total_precio_venta;// ped_dbl_valor_neto+ped_dbl_isc+ped_dbl_igv+ped_dbl_descuento
+        // ESTADOS DEL PEDIDO                
+        $Pedido->ped_int_estado_pedido = 2; //PROCESO
+        // AUDITORIA                     
+        $Pedido->ped_str_fecha_modificacion = $mytime; 
+        $Pedido->ped_str_usuario_modificacion =  "Admin";
+        $this->pedidoObject->update($insertedId, $Pedido->toArray());    
+
         return response()
             ->json(['data' =>$insertedId], 200);
 

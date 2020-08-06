@@ -152,7 +152,6 @@ input[type=submit] {
     });
     
     function onClickNuevo (e){            
-            alert(PedidoDetalle);
             var postData = {
                             "text" :  $("#pro_str_nombre").val(),
                             "_token" : "{{ csrf_token() }}",
@@ -316,7 +315,7 @@ input[type=submit] {
 
     let PedidoDetalle = []
     function insertarDetalloPedido(parametros){
-        debugger;
+
 
         const DETALLE = {
                     IdPedido: 0,
@@ -333,8 +332,23 @@ input[type=submit] {
         pedidodetalle.pro_str_nombre = parametros.pro_str_nombre; 
         pedidodetalle.Cantidad = parametros.pedd_int_cantidad;
         pedidodetalle.Precio = parametros.pedd_int_cantidad * parametros.pedd_dbl_precio; 
-         
-        PedidoDetalle.push(pedidodetalle);
+        if(PedidoDetalle.length == 0){
+            PedidoDetalle.push(pedidodetalle);            
+        }
+        else if(PedidoDetalle.find(e => e.Descripcion == pedidodetalle.Descripcion)){
+            debugger;
+            for(var i = 0; i < PedidoDetalle.length; i++){ 
+                if(PedidoDetalle[i]['Descripcion'] == pedidodetalle.Descripcion){
+                    PedidoDetalle[i].Cantidad  =    parseInt(PedidoDetalle[i].Cantidad) +  parseInt(pedidodetalle.Cantidad);
+                    PedidoDetalle[i].Precio =     parseFloat(PedidoDetalle[i].Precio) +  parseFloat(pedidodetalle.Precio);
+                } 
+            }  
+
+        }
+        else{
+            PedidoDetalle.push(pedidodetalle);     
+        }
+
 
         let text = '';
         let textDetalle = '';
