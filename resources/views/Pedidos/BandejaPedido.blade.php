@@ -91,8 +91,19 @@ input[type=submit] {
                                             <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary">Añadir Pedido</button>    
                                          </form>  
                                     </row>
-                                    <row>                                    
-                                            <div id="divProductoDetalle"></div>                                     
+                                    <row>
+                                        <table id=table="DetallePedido" class="table table-striped table-hover responsive">
+                                            <thead>
+                                            <tr>
+                                            <th>#</th>
+                                            <th>Descripcion</th>
+                                            <th>Cantidad</th>
+                                            <th>Sub Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="divProductoDetalle">
+                                            </tbody>
+                                        </table>                               
                                     </row>
                                     <row>    
                                         <button onClick="onConfirmar(this)" type="button"  class="btn btn-primary">Confirmar Pedido</button>
@@ -122,12 +133,13 @@ input[type=submit] {
     $(document).ready(function() {
 
              $('#divProductoDetalleModal').on('shown.bs.modal', function () {
-
+                $("#divProductoDetalle").empty();
+                PedidoDetalle = [];
             });
 
             $('#divProductoDetalleModal').on('hidden.bs.modal', function (e) {
-                $("#divtrPadres").empty();    
-                c=0;
+                $("#divProductoDetalle").empty();
+                PedidoDetalle = [];
             });
 
             var s="<div name='prueba' class='col-md-3'>NUMERO PEDIDO.</div>";
@@ -139,6 +151,7 @@ input[type=submit] {
     });
     
     function onClickNuevo (e){            
+            alert(PedidoDetalle);
             var postData = {
                             "text" :  $("#pro_str_nombre").val(),
                             "_token" : "{{ csrf_token() }}",
@@ -301,7 +314,6 @@ input[type=submit] {
     }
 
     let PedidoDetalle = []
-    let c = 0;
     function insertarDetalloPedido(parametros){
         debugger;
 
@@ -326,25 +338,7 @@ input[type=submit] {
         let text = '';
         let textDetalle = '';
       
-         $("#divtrPadres").empty();
-      
-        if(c==0){
-            text += '<table id=table="DetallePedido" class="table table-striped table-hover responsive">';
-            text += '   <thead>';
-            text += '   <tr>';
-            text += '       <th>#</th>';
-            text += '       <th>Descripcion</th>';
-            text += '       <th>Cantidad</th>';
-            text += '       <th>Sub Total</th>'; 
-            text += '   </tr>';
-            text += '   </thead>';
-            text += '   <tbody id="divtrPadres">';
-            text += '   </tbody>';
-            text += '</table>';
-            c = 1;            
-            $("#divProductoDetalle").append(text);
-        }
-
+         $("#divProductoDetalle").empty();
 
         var contador = 1;
         for(var i = 0; i < PedidoDetalle.length; i++){   
@@ -357,7 +351,7 @@ input[type=submit] {
             contador++; 
 
         }                                  
-        $("#divtrPadres").append(textDetalle);
+        $("#divProductoDetalle").append(textDetalle);
     }
 
     function onConfirmar (){
@@ -370,8 +364,7 @@ input[type=submit] {
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 $('#ped_int_id').val(data.data);
-                $("#divtrPadres").empty();
-               // $( "#idCerrarNuevoDetalle" ).trigger( "click" );
+                $("#divProductoDetalle").empty();
                 $('#divProductoDetalleModal').modal('hide');
                 PedidoDetalle = [];
             }
