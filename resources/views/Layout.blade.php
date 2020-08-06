@@ -20,18 +20,22 @@
      </style>
  </head>
      
-    <body>
-       <div name='techo'>             
-          <div class="container" >
-               @yield('AlmacenBandeja')      
+     <body>
+          <div name='techo'>           
+               <div class="container" >
+                    @yield('Index')      
+               </div>             
+               <div class="container" >
+                    @yield('AlmacenBandeja')      
+               </div>
+               <div class="container">
+                    @yield('ProductoBandeja')      
+               </div>
+               <div class="container">
+                    @yield('PedidoBandeja')      
+               </div>
           </div>
-          <div class="container">
-               @yield('ProductoBandeja')      
-          </div>
-          <div class="container">
-            @yield('PedidoBandeja')      
-       </div>
-       </div>
-        @yield('bandejajs')
-    </body>
+          @yield('bandejajs')
+          <a class="nav-link" href="/">BACK</a>
+     </body>
 </html>
