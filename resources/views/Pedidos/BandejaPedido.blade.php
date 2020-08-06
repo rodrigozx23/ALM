@@ -309,11 +309,11 @@ input[type=submit] {
 
         const me = Object.create(DETALLE);
 
-            me.Descripcion = parametros.pro_str_nombre; // "name" is a property set on "me", but not on "person"
-            me.IdProducto = parametros.pro_int_id; // inherited properties can be overwritten
-            me.pro_str_nombre = parametros.pro_str_nombre; // inherited properties can be overwritten
-            me.Cantidad = parametros.pedd_int_cantidad; // "name" is a property set on "me", but not on "person"
-            me.Precio = parametros.pedd_int_cantidad * parametros.pedd_dbl_precio; // inherited properties can be overwritten
+            me.Descripcion = parametros.pro_str_nombre; 
+            me.IdProducto = parametros.pro_int_id;
+            me.pro_str_nombre = parametros.pro_str_nombre; 
+            me.Cantidad = parametros.pedd_int_cantidad;
+            me.Precio = parametros.pedd_int_cantidad * parametros.pedd_dbl_precio; 
          
         PedidoDetalle.push(me);
 
