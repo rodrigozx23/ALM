@@ -84,7 +84,7 @@ input[type=submit] {
                                                     <input type="number" min="1" max="100" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
                                                  </div>
                                                 <div class="col-md-6">
-                                                    <label>Costo venta:</label>
+                                                    <label>Precio Unitario:</label>
                                                     <input type="text" class="form-control" name="pedd_dbl_precio" id="pedd_dbl_precio"  >
                                                  </div>                                                                         
                                             </div>                                        
@@ -92,8 +92,7 @@ input[type=submit] {
                                          </form>  
                                     </row>
                                     <row>                                    
-                                            <table id="dvPedido"  class="table table-striped table-hover responsive">
-                                            </table>                                      
+                                            <div id="divProductoDetalle"></div>                                     
                                     </row>
                                     <row>    
                                         <button onClick="onNuevoPedidoDetalle(this)" type="button"  class="btn btn-primary">Confirmar Pedido</button>
@@ -128,15 +127,18 @@ input[type=submit] {
 
             $('#divProductoDetalleModal').on('hidden.bs.modal', function (e) {
                //$("#divProductoDetalle").empty();
+               c=0;
             });
 
             var s="<div name='prueba' class='col-md-3'>NUMERO PEDIDO.</div>";
             $("#targetDIV").append(s)    
             //crearTablaProducto();
+
+            
+
     });
     
-    function onClickNuevo (e){          
-            debugger     
+    function onClickNuevo (e){            
             var postData = {
                             "text" :  $("#pro_str_nombre").val(),
                             "_token" : "{{ csrf_token() }}",
@@ -168,118 +170,11 @@ input[type=submit] {
                 "pro_int_id" : $('#pro_int_id').val(),
                 "pedd_int_cantidad" : $('#pedd_int_cantidad').val(),
                 "pedd_dbl_precio" : $('#pedd_dbl_precio').val(),
+                "pro_str_nombre" : $('#pro_str_nombre').val(),
         };
         console.log(parametros);
-        if(pedidoid == null || pedidoid==""){
-            $.ajax({
-            type: 'POST',
-            url: 'guardarPedido'+'?_token=' + '{{ csrf_token() }}',
-            data: parametros,
-            success: function (data) {
-                $('#ped_int_id').val(data.data);
-            }
-            });
-        }else{
-            $.ajax({
-            type: 'POST',
-            url: 'agregarPedidoDetalle'+'?_token=' + '{{ csrf_token() }}',
-            data: parametros,
-            success: function (data) {
-                //$('#ped_int_id').val(data.data);
-            }
-            });
-        }   
-        // CREAR EL PEDIDO DETALLE
-        // AL CONFIRMAR EL PEDIDO SE AGREGUEN LOS IDS. y las CANTIDADES
+        insertarDetalloPedido(parametros)
     }
-
-    function crearTablaProducto(){
-
-        $("#dvPedido").DataTable({
-
-            responsive: true,
-            retrieve: true,
-            processing: false,
-            serverSide: false,
-            paging: true,
-            searching: true,
-                ajax: {
-                    url: "/PP",
-                    type: 'get',
-                },
-                columns: [
-                    { title: "id", data: "pro_int_id", name: "pro_int_id", "visible": false},
-                    {   data:   "active",
-                            render: function ( data, type, row ) {
-                                return '<input name="idCBox" type="checkbox" class="editor-active">';                                                   
-                            },
-                            className: "dt-body-center"      
-                    },                                                
-                    { title: "Descripcion", data: "pro_str_nombre", name: "pro_str_nombre", "autoWidth": true },
-                    /*{
-                        "title": "#", "mData": null, "bSortable": false, className: "text-center",
-                        "mRender": function (row) {
-                            return `<a class="btn btn-primary btn-rounded btn-outline btn-sm"><b onclick="fnOnClickModal(this)" >Editar</b></a>`;
-                            //return `<a href="${Ruta}?Id=${row.id}&editAction=2" class="btn btn-primary btn-rounded btn-outline btn-sm"><b>Editar</b></a>`;
-                        }
-                    },*/   
-                   // { title: "Cantidad", data: "pro_dbl_precio_venta", name: "pro_dbl_precio_venta", "autoWidth": true, "className": "text-right" },
-                    { title: "Precio Venta", data: "pro_dbl_precio_venta", name: "pro_dbl_precio_venta", "autoWidth": true, "className": "text-right" },
-
-                    /*{
-                        "title": "#", "mData": null, "bSortable": false, className: "text-center",
-                        "mRender": function (row) {
-                            return `<a class="btn btn-primary btn-rounded btn-outline btn-sm"><b onclick="fnOnClickModalDetalle(this)" >Agregar</b></a>`;
-                            //return `<a href="${Ruta}?Id=${row.id}&editAction=2" class="btn btn-primary btn-rounded btn-outline btn-sm"><b>Editar</b></a>`;
-                        }
-                    },*/
-                ], 
-            select: true,
-            autoWidth: false,
-            lengthChange: true,
-            lengthMenu: [11, 20, 30, 100]
-            });
-    }
-
-    function CrearTablaManual(){
-            let text = '';
-            $.get("/PP",{},function(data){
-                console.log(data);
-                    let cant = 1;
-                    text += '<table id="tbproducto" class="table table-striped table-hover responsive">';
-                    text += '   <thead>';
-                    text += '   <tr>';
-                    text += '       <th>#</th>';
-                    text += '       <th>Descripcion</th>';
-                    text += '       <th>Cantidad</th>';
-                    text += '       <th>Precio Venta</th>'; 
-                    text += '       <th></th>'; 
-                    text += '   </tr>';
-                    text += '   </thead>';
-                    text += '   <tbody>';
-                    for(var i = 0; i< data.data.length; i++){
-                        text += '   <tr>';
-                        text += '       <td>'+cant+'</td>';
-                        text += '       <td>'+data.data[i]['pro_str_nombre']+'</td>';                      
-                  
-                        //text += '       <td>'+data.data[i]['prod_dbl_cantidad_item']+'</td>';  
-                        //    text += '       <td>'+data.data[i]['prod_dbl_costo_produccion_item']+'</td>';                   
-                        text += '       <td>CANTIDAD</td>';    
-                        text += '       <td>'+data.data[i]['pro_dbl_precio_venta']+'</td>';           
-                        text += '       <td></td>';     
-                        text += '   </tr>';
-                        cant++;
-                    }      
-
-                    text += '   </tbody>';
-                    text += '   </table>';
-
-                    $("#divProductoDetalle").append(text);
-                    
-            },'json');
-     
-    }
-
 
     function autocomplete(inp, arr) {
             /*the autocomplete function takes two arguments,
@@ -380,14 +275,85 @@ input[type=submit] {
 
     } 
 
-    function guardaridItem(){             
-                debugger    
-                const productos = _ITEMS_PRODUCTO.filter((b) => { return b.pro_str_nombre ==  $("#pro_str_nombre").val()});
-                $("#pro_int_id").val(productos[0].pro_int_id);      
-                $("#pedd_dbl_precio").val(productos[0].pro_dbl_precio_venta);              
-                $("#pro_str_nombre").attr("readonly", true);
+    function guardaridItem(){               
+        const productos = _ITEMS_PRODUCTO.filter((b) => { return b.pro_str_nombre ==  $("#pro_str_nombre").val()});
+        
+        $("#pro_int_id").val(productos[0].pro_int_id);      
+        $("#pedd_dbl_precio").val(productos[0].pro_dbl_precio_venta);              
+        $("#pro_str_nombre").attr("readonly", true);
                 
     }
+
+    function fnOnClickModalDetalle(e){         
+            var table = $('#dvPedido').DataTable(); 
+            $('#dvPedido tbody').on( 'click', 'tr', function () {
+                var rowData = table.row( this ).data();
+                _PRODUCTO = rowData.pro_int_id;     
+            } );
+            $("#divProductoDetalle").empty();      
+            $('#divProductoDetalleModal').modal("show");         
+    }
+
+    let PedidoDetalle = []
+    let c = 0;
+    function insertarDetalloPedido(parametros){
+        debugger;
+
+        const DETALLE = {
+                    IdPedido: 0,
+                    IdProducto: 0,
+                    Cantidad: 0,
+                    Precio: 0,
+                    Descripcion:""
+        };    
+
+        const me = Object.create(DETALLE);
+
+            me.Descripcion = parametros.pro_str_nombre; // "name" is a property set on "me", but not on "person"
+            me.IdProducto = parametros.pro_int_id; // inherited properties can be overwritten
+            me.pro_str_nombre = parametros.pro_str_nombre; // inherited properties can be overwritten
+            me.Cantidad = parametros.pedd_int_cantidad; // "name" is a property set on "me", but not on "person"
+            me.Precio = parametros.pedd_int_cantidad * parametros.pedd_dbl_precio; // inherited properties can be overwritten
+         
+        PedidoDetalle.push(me);
+
+        let text = '';
+        let textDetalle = '';
+      
+         $("#divtrPadres").empty();
+      
+        if(c==0){
+            text += '<table id=table="DetallePedido" class="table table-striped table-hover responsive">';
+            text += '   <thead>';
+            text += '   <tr>';
+            text += '       <th>#</th>';
+            text += '       <th>Descripcion</th>';
+            text += '       <th>Cantidad</th>';
+            text += '       <th>Sub Total</th>'; 
+            text += '   </tr>';
+            text += '   </thead>';
+            text += '   <tbody id="divtrPadres">';
+            text += '   </tbody>';
+            text += '</table>';
+            c = 1;            
+            $("#divProductoDetalle").append(text);
+        }
+
+
+        var contador = 1;
+        for(var i = 0; i < PedidoDetalle.length; i++){   
+            textDetalle += '   <tr>';       
+            textDetalle += '       <td>'+contador+'</td>';            
+            textDetalle += '       <td>'+PedidoDetalle[i]['Descripcion']+'</td>';  
+            textDetalle += '       <td>'+PedidoDetalle[i]['Cantidad']+'</td>';  
+            textDetalle += '       <td>'+PedidoDetalle[i]['Precio']+'</td>';  
+            textDetalle += '   <tr>';    
+            contador++; 
+        }                                  
+        $("#divtrPadres").append(textDetalle);
+    }
+
+
 </script>
 
 @stop

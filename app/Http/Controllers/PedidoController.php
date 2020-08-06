@@ -119,52 +119,50 @@ class PedidoController extends Controller
     {
         //$input = $request->all();
         $Pedido = new ped;
-        $mytime =Carbon::now();      
+        $mytime =Carbon::now();     
+        $PedidoInsert = new ped;   
+        $PedidoDetalleInsert = new pedd;                
+            $PedidoInsert->ped_str_mesa = "Test";
+            $PedidoInsert->ped_dat_fecha_inicio = $mytime;
+            // MONTOS
+            $PedidoInsert->ped_dbl_igv = 0;    
+            $PedidoInsert->ped_dbl_isc = 0;
+            $PedidoInsert->ped_dbl_valor_neto = 0;    
+            $PedidoInsert->ped_dbl_venta_total = 0;
+            $PedidoInsert->ped_dbl_descuento = 0;
+            // ESTADOS DEL PEDIDO
+            $PedidoInsert->ped_bit_cancelado = 0;
+            $PedidoInsert->ped_bit_combo = 0;
+            $PedidoInsert->ped_int_estado_pedido = 1;
+            $PedidoInsert->ped_int_estado = 1;
+            // AUDITORIA
+            $PedidoInsert->ped_int_empresa = 1;
+            $PedidoInsert->ped_dat_fecha_creacion = $mytime;
+            $PedidoInsert->ped_str_fecha_modificacion = $mytime;
+            $PedidoInsert->ped_str_usuario_creacion = "Admin";
+            $PedidoInsert->ped_str_usuario_modificacion =  "Admin";
+
+            $this->pedidoObject->create($PedidoInsert->toArray());    
+
+            $insertedId = $id = DB::getPdo()->lastInsertId();                
+
+
+            $PedidoDetalleInsert->pedd_dbl_precio = $request->input('pedd_dbl_precio');
+            $PedidoDetalleInsert->pedd_int_cantidad =  $request->input('pedd_int_cantidad');
+            $PedidoDetalleInsert->ped_int_id = $insertedId;
+            $PedidoDetalleInsert->pro_int_id =  $request->input('pro_int_id');
+            $PedidoDetalleInsert->pedd_int_item =  1;
+            // ESTADOS DEL PEDIDO
+            $PedidoDetalleInsert->pedd_bit_cancelado = 0;
+            $PedidoDetalleInsert->pedd_int_estado_detalle = 1;
+            // AUDITORIA
+            $PedidoDetalleInsert->pedd_dat_fecha_creacion = $mytime;
+            $PedidoDetalleInsert->pedd_dat_fecha_modificacion = $mytime;
+            $PedidoDetalleInsert->pedd_str_usuario_creacion = "Admin";
+            $PedidoDetalleInsert->pedd_str_usuario_modificacion =  "Admin";
+
+            $this->pedidoDetalleObject->create($PedidoDetalleInsert->toArray());   
         
-        $PedidoInsert = new ped;  
-
-        $PedidoInsert->ped_str_mesa = "Test";
-        $PedidoInsert->ped_dat_fecha_inicio = $mytime;
-        // MONTOS
-        $PedidoInsert->ped_dbl_igv = 0;    
-        $PedidoInsert->ped_dbl_isc = 0;
-        $PedidoInsert->ped_dbl_valor_neto = 0;    
-        $PedidoInsert->ped_dbl_venta_total = 0;
-        $PedidoInsert->ped_dbl_descuento = 0;
-        // ESTADOS DEL PEDIDO
-        $PedidoInsert->ped_bit_cancelado = 0;
-        $PedidoInsert->ped_bit_combo = 0;
-        $PedidoInsert->ped_int_estado_pedido = 1;
-        $PedidoInsert->ped_int_estado = 1;
-        // AUDITORIA
-        $PedidoInsert->ped_int_empresa = 1;
-        $PedidoInsert->ped_dat_fecha_creacion = $mytime;
-        $PedidoInsert->ped_str_fecha_modificacion = $mytime;
-        $PedidoInsert->ped_str_usuario_creacion = "Admin";
-        $PedidoInsert->ped_str_usuario_modificacion =  "Admin";
-
-        $this->pedidoObject->create($PedidoInsert->toArray());    
-
-        $insertedId = $id = DB::getPdo()->lastInsertId(); 
-              
-        $PedidoDetalleInsert = new pedd;
-
-        $PedidoDetalleInsert->pedd_dbl_precio = $request->input('pedd_dbl_precio');
-        $PedidoDetalleInsert->pedd_int_cantidad =  $request->input('pedd_int_cantidad');
-        $PedidoDetalleInsert->ped_int_id = $insertedId;
-        $PedidoDetalleInsert->pro_int_id =  $request->input('pro_int_id');
-        $PedidoDetalleInsert->pedd_int_item =  1;
-        // ESTADOS DEL PEDIDO
-        $PedidoDetalleInsert->pedd_bit_cancelado = 0;
-        $PedidoDetalleInsert->pedd_int_estado_detalle = 1;
-        // AUDITORIA
-        $PedidoDetalleInsert->pedd_dat_fecha_creacion = $mytime;
-        $PedidoDetalleInsert->pedd_dat_fecha_modificacion = $mytime;
-        $PedidoDetalleInsert->pedd_str_usuario_creacion = "Admin";
-        $PedidoDetalleInsert->pedd_str_usuario_modificacion =  "Admin";
-
-        $this->pedidoDetalleObject->create($PedidoDetalleInsert->toArray());   
-
         return response()
             ->json(['data' =>$insertedId], 200);
 
