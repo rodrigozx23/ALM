@@ -34,7 +34,7 @@ Route::post('editarItem', 'AlmacenController@updateItem');
 
 //ABRE EL MODULO DE PRODUCTO
 Route::get('/Producto', function () {
-    return view('Almacen.BandejaProducto');
+    return view('Producto.BandejaProducto');
 });
 
 //GUARDA EL PRODUCTO
