@@ -88,15 +88,15 @@ input[type=submit] {
                                                     <input type="text" class="form-control" name="pedd_dbl_precio" id="pedd_dbl_precio"  >
                                                  </div>                                                                         
                                             </div>                                        
-                                            <button onClick="onNuevoPedido(this)" class="btn btn-primary">Añadir Pedido</button>    
+                                            <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary">Añadir Pedido</button>    
                                          </form>  
                                     </row>
                                     <row>                                    
                                             <div id="divProductoDetalle"></div>                                     
                                     </row>
                                     <row>    
-                                        <button onClick="onNuevoPedidoDetalle(this)" type="button"  class="btn btn-primary">Confirmar Pedido</button>
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                                        <button onClick="onConfirmar(this)" type="button"  class="btn btn-primary">Confirmar Pedido</button>
+                                        <button type="button" class="btn btn-primary" id="idCerrarNuevoDetalle" data-dismiss="modal">Cerrar</button>
                                     </row>                
                             </div>  
                         </div>
@@ -126,8 +126,8 @@ input[type=submit] {
             });
 
             $('#divProductoDetalleModal').on('hidden.bs.modal', function (e) {
-               //$("#divProductoDetalle").empty();
-               c=0;
+                $("#divtrPadres").empty();    
+                c=0;
             });
 
             var s="<div name='prueba' class='col-md-3'>NUMERO PEDIDO.</div>";
@@ -161,7 +161,7 @@ input[type=submit] {
            // ("#tbproducto > tr").remove();
     }
 
-    function onNuevoPedido(e){
+    function onAddPedidoDetalle(e){
         var pedidoid =  $('#ped_int_id').val();
         // CREAR EL PEDIDO CAB,
         // RETORNE SU ID -> PARA VALIDAR LAS MODAS
@@ -174,6 +174,12 @@ input[type=submit] {
         };
         console.log(parametros);
         insertarDetalloPedido(parametros)
+
+            $('#pro_int_id').val(""),
+            $('#pedd_int_cantidad').val(""),
+            $('#pedd_dbl_precio').val(""),
+            $('#pro_str_nombre').val(""),
+            $("#pro_str_nombre").attr("readonly", false);
     }
 
     function autocomplete(inp, arr) {
@@ -349,11 +355,28 @@ input[type=submit] {
             textDetalle += '       <td>'+PedidoDetalle[i]['Precio']+'</td>';  
             textDetalle += '   <tr>';    
             contador++; 
+
         }                                  
         $("#divtrPadres").append(textDetalle);
     }
 
-
+    function onConfirmar (){
+        var envio = PedidoDetalle;
+        console.log(JSON.stringify(envio));
+        $.ajax({
+            type: 'POST',
+            url: 'guardarPedido'+'?_token=' + '{{ csrf_token() }}',
+            data: JSON.stringify(envio),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $('#ped_int_id').val(data.data);
+                $("#divtrPadres").empty();
+               // $( "#idCerrarNuevoDetalle" ).trigger( "click" );
+                $('#divProductoDetalleModal').modal('hide');
+                PedidoDetalle = [];
+            }
+        });    
+    }
 </script>
 
 @stop

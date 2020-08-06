@@ -144,25 +144,28 @@ class PedidoController extends Controller
 
             $this->pedidoObject->create($PedidoInsert->toArray());    
 
-            $insertedId = $id = DB::getPdo()->lastInsertId();                
-
-
-            $PedidoDetalleInsert->pedd_dbl_precio = $request->input('pedd_dbl_precio');
-            $PedidoDetalleInsert->pedd_int_cantidad =  $request->input('pedd_int_cantidad');
+            $insertedId = $id = DB::getPdo()->lastInsertId();  
+            
+            //$select_data = $request->all();
+            $select_data =  (json_decode($request->getContent(), true));
+           
+            foreach ($select_data as $item)
+            {
+            $PedidoDetalleInsert->pedd_dbl_precio = $item['Precio'] ;
+            $PedidoDetalleInsert->pedd_int_cantidad = $item['Cantidad'] ;
             $PedidoDetalleInsert->ped_int_id = $insertedId;
-            $PedidoDetalleInsert->pro_int_id =  $request->input('pro_int_id');
+            $PedidoDetalleInsert->pro_int_id = $item['IdProducto'] ;
             $PedidoDetalleInsert->pedd_int_item =  1;
             // ESTADOS DEL PEDIDO
             $PedidoDetalleInsert->pedd_bit_cancelado = 0;
             $PedidoDetalleInsert->pedd_int_estado_detalle = 1;
-            // AUDITORIA
+             // AUDITORIA
             $PedidoDetalleInsert->pedd_dat_fecha_creacion = $mytime;
             $PedidoDetalleInsert->pedd_dat_fecha_modificacion = $mytime;
             $PedidoDetalleInsert->pedd_str_usuario_creacion = "Admin";
             $PedidoDetalleInsert->pedd_str_usuario_modificacion =  "Admin";
-
             $this->pedidoDetalleObject->create($PedidoDetalleInsert->toArray());   
-        
+            }
         return response()
             ->json(['data' =>$insertedId], 200);
 
