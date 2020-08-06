@@ -21,21 +21,27 @@
  </head>
      
      <body>
-          <div name='techo'>           
+          <div class="row" name='techo'>    
+               <div class="col-11">
+                    <h2>Dxter indice prron</h2>
+               </div>             
+               <div  class="col-1">
+                    <a class="nav-link" href="/">BACK</a>
+               </div>       
+          </div>
+          <div class="row">           
                <div class="container" >
-                    @yield('Index')      
+                    <div class="col-1">
+                    @yield('Index')  
+                    </div>                      
                </div>             
                <div class="container" >
-                    @yield('AlmacenBandeja')      
-               </div>
-               <div class="container">
-                    @yield('ProductoBandeja')      
-               </div>
-               <div class="container">
-                    @yield('PedidoBandeja')      
+                    <div class="col-11">
+                    @yield('Bandeja') 
+                    </div>                      
                </div>
           </div>
           @yield('bandejajs')
-          <a class="nav-link" href="/">BACK</a>
+         
      </body>
 </html>

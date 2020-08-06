@@ -2,7 +2,6 @@
 
 @section('Index')
 <div class="col-md-2">
-    Dxter indice prron
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
             <a class="nav-link" href="Almacen">Almacen</a>

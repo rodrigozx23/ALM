@@ -1,6 +1,6 @@
 @extends('Layout')
 
-@section('ProductoBandeja')
+@section('Bandeja')
 <style>
 { box-sizing: border-box; }
 body {

@@ -1,6 +1,6 @@
 @extends('Layout')
 
-@section('AlmacenBandeja')
+@section('Bandeja')
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-lg-3">
@@ -177,7 +177,7 @@
             });
 
             $('#divItemInventarioUModal').on('hidden.bs.modal', function (e) {
-                $("#divContentItemUInventario").empty();
+
             });
         });
 
