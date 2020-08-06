@@ -307,15 +307,15 @@ input[type=submit] {
                     Descripcion:""
         };    
 
-        const me = Object.create(DETALLE);
+        const pedidodetalle = Object.create(DETALLE);
 
-            me.Descripcion = parametros.pro_str_nombre; 
-            me.IdProducto = parametros.pro_int_id;
-            me.pro_str_nombre = parametros.pro_str_nombre; 
-            me.Cantidad = parametros.pedd_int_cantidad;
-            me.Precio = parametros.pedd_int_cantidad * parametros.pedd_dbl_precio; 
+        pedidodetalle.Descripcion = parametros.pro_str_nombre; 
+        pedidodetalle.IdProducto = parametros.pro_int_id;
+        pedidodetalle.pro_str_nombre = parametros.pro_str_nombre; 
+        pedidodetalle.Cantidad = parametros.pedd_int_cantidad;
+        pedidodetalle.Precio = parametros.pedd_int_cantidad * parametros.pedd_dbl_precio; 
          
-        PedidoDetalle.push(me);
+        PedidoDetalle.push(pedidodetalle);
 
         let text = '';
         let textDetalle = '';
