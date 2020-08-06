@@ -19,7 +19,7 @@ Route::get('/getP', 'AlmacenController@getAllProductos');
 //Route::post('/store','AlmacenController@storeItems');
 
 Route::get('/', function () {
-    return view('Layout');
+    return view('Index');
 });
 
 //ABRE EL MODULO DE ALMACEN
