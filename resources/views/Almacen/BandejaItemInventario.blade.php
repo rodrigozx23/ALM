@@ -171,7 +171,6 @@
             });
 
             $('#divItemInventarioIModal').on('hidden.bs.modal', function (e) {
-                $("#divContentItemIInventario").empty();
             });
 
             $('#divItemInventarioUModal').on('shown.bs.modal', function () {
