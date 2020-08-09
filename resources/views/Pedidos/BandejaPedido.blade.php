@@ -58,6 +58,10 @@ input[type=submit] {
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
+
+#divContentProductoDetalle{
+    padding: 10px;
+}
 </style>
 <div  class="wrapper wrapper-content">
 
@@ -82,29 +86,50 @@ input[type=submit] {
                                         </button>
                                     </div>
                                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-                                
-                                    <row> 
-                                        <form id="CreatePedido" target="dummyframe">                               
-                                            <input class="form-control" name="pro_int_id" id="pro_int_id" hidden>
-                                            <input class="form-control" name="ped_int_id" id="ped_int_id" hidden>
-                                            <div class="form-group autocomplete">                                    
-                                                <label for="pro_str_nombre" >Producto:</label>
-                                                <input class="form-control" name="pro_str_nombre" id="pro_str_nombre" autocomplete="off">
-                                            </div>                                  
-                                            <div class="form-group row">
-                                                <div class="col-md-6">
-                                                    <label>Cantidad:</label>
-                                                    <input type="number" min="1" max="100" value="1" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
-                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label>Precio Unitario:</label>
-                                                    <input type="text" class="form-control" name="pedd_dbl_precio" id="pedd_dbl_precio"  >
-                                                 </div>                                                                         
-                                            </div>                                        
-                                            <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary">Añadir Pedido</button>    
-                                         </form>  
-                                    </row>
-                                    <row>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>Direccion:</label>
+                                                        <input type="text" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
+                                                    </div>                                            
+                                                </div>
+                                                <br>                                                
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label>Nombre:</label>
+                                                        <input type="text" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Telefono:</label>
+                                                        <input type="text" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
+                                                    </div>                                      
+                                                </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <form id="CreatePedido" target="dummyframe">                               
+                                                <input class="form-control" name="pro_int_id" id="pro_int_id" hidden>
+                                                <input class="form-control" name="ped_int_id" id="ped_int_id" hidden>
+                                                <div class="form-group autocomplete">                                    
+                                                    <label for="pro_str_nombre" >Producto:</label>
+                                                    <input class="form-control" name="pro_str_nombre" id="pro_str_nombre" autocomplete="off">
+                                                </div>                                  
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <label>Cantidad:</label>
+                                                        <input type="number" min="1" max="100" value="1" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Precio Unitario:</label>
+                                                        <input type="text" class="form-control" name="pedd_dbl_precio" id="pedd_dbl_precio"  >
+                                                    </div>                                                                         
+                                                </div>                                        
+                                                <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary">Añadir Pedido</button>    
+                                            </form>                                                                   
+                                        </div>     
+                                    </div>
+                                    <br>
+                                    <div class="row">
                                         <table id="tableDetallePedido" class="table table-striped table-hover responsive">
                                             <thead>
                                             <tr>
@@ -117,11 +142,17 @@ input[type=submit] {
                                             <tbody id="divProductoDetalle">
                                             </tbody>
                                         </table>                               
-                                    </row>
-                                    <row>    
-                                        <button onClick="onConfirmar(this)" type="button"  class="btn btn-primary">Confirmar Pedido</button>
-                                        <button type="button" class="btn btn-primary" id="idCerrarNuevoDetalle" data-dismiss="modal">Cerrar</button>
-                                    </row>                
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button onClick="onConfirmar(this)" type="button"  class="btn btn-primary">Confirmar Pedido</button>
+                                        </div>                                        
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-primary" id="idCerrarNuevoDetalle" data-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>                
                             </div>  
                         </div>
                     </div>
