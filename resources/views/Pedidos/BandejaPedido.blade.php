@@ -429,17 +429,19 @@ input[type=submit] {
             
                 $("#divProductoDetalle").empty();                  
                 $('#divProductoDetalleModal').modal('hide');                                      
-let text = '<button onClick="return  CrearTablaManual(this)" type="button" class="list-group-item list-group-item-action" value="'+data.data+'">Pedido</button>';
+let text = '<button id="" onclick="return  CrearTablaManual('+data.data+')" type="button" class="list-group-item list-group-item-action" value="'+data.data+'">Pedido</button>';
                 $("#targetList").append(text);
                 PedidoDetalle = [];                
             }
-        });    
+        });   
+    }
+     
     
-        function CrearTablaManual(e){
-            DEBUGGER;
+    function CrearTablaManual(e){
+            debugger;
             let text = '';
-            var _Pedido = $("#divProductoDetalle").val();
-            $.get("listarPedidoDetalle/"+_Pedido,{},function(data){
+            
+            $.get("listarPedidoDetalle/"+e,{},function(data){
                 console.log(data);
                     let cant = 1;
                     text += '<table class="table table-striped table-hover responsive">';
@@ -467,6 +469,5 @@ let text = '<button onClick="return  CrearTablaManual(this)" type="button" class
                     $("#divResumenPedidoDetalle").append(text);
             },'json')
         }
-    }
 </script>
 @stop

@@ -61,7 +61,6 @@ Route::post('guardarPedido', 'PedidoController@storePedido');
 
 Route::get('listarPedidoDetalle/{id}', 'PedidoController@listarPedidoDetalle');
 
-Route::get('listarPedidoDetalle/{id}', 'PedidoController@listarPedidoDetalle');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
