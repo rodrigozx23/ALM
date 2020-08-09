@@ -164,13 +164,11 @@ input[type=submit] {
             <div class="col-md-10">                   
                 <div  class="Container">
                     <div class="wrapper wrapper-content">
-                        <div class="row">       
-                                <div class="col-lg-10">
-                                    <div class="box-default">
-                                        <div class="table-responsive">
-                                            <br />
-                                            <div id="divResumenPedidoDetalle"></div>
-                                        </div>
+                        <div class="row align-items-center">        
+                                <div class="box-default">
+                                    <div class="table-responsive">
+                                        <br />
+                                        <div id="divResumenPedidoDetalle"></div>
                                     </div>
                                 </div>
                             </div>
