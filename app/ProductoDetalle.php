@@ -14,6 +14,7 @@ class ProductoDetalle extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'prod_str_tipo_medida_salida',
         'prod_int_tipo_medida_salida', //TIPÖ DE SALIDA EL ITEMPRODUCTO
         'prod_dbl_cantidad_item', // CANTIDAD ENTRE ITEM Y PRODUCTO
         'pro_int_id','invi_int_id', // FK

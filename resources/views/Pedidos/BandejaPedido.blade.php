@@ -155,32 +155,23 @@ input[type=submit] {
         </div>
     </div>
     <div class="row"> 
-        <div class="col-lg-12">
-            <div class="col-md-2">                    
-		        <div id="targetList" class="list-group">
-
-                </div>
-		    </div>
-            <div class="col-md-10">                   
-                <div  class="Container">
-                    <div class="wrapper wrapper-content">
-                        <div class="row align-items-center">        
-                                <div class="box-default">
-                                    <div class="table-responsive">
-                                        <br />
-                                        <div id="divResumenPedidoDetalle"></div>
-                                    </div>
-                                </div>
+        <div class="col-sm-2">                    
+            <div id="targetList" class="list-group"></div>
+        </div>
+        <div class="col-sm-10">                   
+            <div  class="Container">                 
+                    <div class="row align-items-center">        
+                        <div class="box-default">
+                            <div class="table-responsive">
+                                <br />
+                                <div id="divResumenPedidoDetalle"></div>
                             </div>
                         </div>
-                    </div>
+                    </div>               
                 </div>
-		    </div>
+            </div>	
         </div>
-
     </div>
-
-
 </div>
 
 @endsection
@@ -436,6 +427,7 @@ let text = '<button id="" onclick="return  CrearTablaManual('+data.data+')" type
      
     
     function CrearTablaManual(e){
+            $("#divResumenPedidoDetalle").empty();
             debugger;
             let text = '';
             
@@ -453,6 +445,7 @@ let text = '<button id="" onclick="return  CrearTablaManual('+data.data+')" type
                     text += '   </thead>';
                     text += '   <tbody>';
                     for(var i = 0; i< data.data.length; i++){
+                        console.log(data.data);
                         text += '   <tr>';
                         text += '       <td>'+cant+'</td>';
                         text += '       <td>'+data.data[i]['pro_str_nombre']+'</td>';                      
