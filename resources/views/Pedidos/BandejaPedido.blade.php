@@ -75,7 +75,14 @@ input[type=submit] {
                     <div class="modal-content">
                         <div class="modal-body">
                             <div id="divContentProductoDetalle">    
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong id="MensajeError"></strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                                
                                     <row> 
                                         <form id="CreatePedido" target="dummyframe">                               
                                             <input class="form-control" name="pro_int_id" id="pro_int_id" hidden>
@@ -230,6 +237,12 @@ input[type=submit] {
         var pedidoid =  $('#ped_int_id').val();
         // CREAR EL PEDIDO CAB,
         // RETORNE SU ID -> PARA VALIDAR LAS MODAS
+        var pro_id = $('#pro_int_id').val();
+        if(pro_id.length == 0 || pro_id.length < 0){
+            $('#MensajeError').text("Debe Seleccionar un producto.");
+            return;
+        }
+
         var parametros = {              
                 "ped_int_id" : pedidoid,
                 "pro_int_id" : $('#pro_int_id').val(),
@@ -237,7 +250,6 @@ input[type=submit] {
                 "pedd_dbl_precio" : $('#pedd_dbl_precio').val(),
                 "pro_str_nombre" : $('#pro_str_nombre').val(),
         };
-        console.log(parametros);
         insertarDetalloPedido(parametros)
 
             $('#pro_int_id').val(""),
@@ -437,7 +449,7 @@ input[type=submit] {
     function CrearTablaManual(e){
             $("#divResumenPedidoDetalle").empty();
             let text = '';
-            
+            var totalPrecio = 0;    
             $.get("listarPedidoDetalle/"+e,{},function(data){
                 console.log(data);
                     let cant = 1;
@@ -451,6 +463,7 @@ input[type=submit] {
                     text += '   </tr>';
                     text += '   </thead>';
                     text += '   <tbody>';
+
                     for(var i = 0; i< data.data.length; i++){
                         console.log(data.data);
                         text += '   <tr>';
@@ -459,9 +472,19 @@ input[type=submit] {
                         text += '       <td>'+data.data[i]['pedd_int_cantidad']+'</td>';  
                         text += '       <td>'+data.data[i]['pedd_dbl_precio']+'</td>';  
                         text += '   </tr>';
-                        cant++;
+                        cant++;              
+                        totalPrecio += parseFloat(data.data[i]['pedd_dbl_precio']); 
                     }      
+            
                     text += '   </tbody>';
+                    text += '   <tfoot>';
+                    text += '   <tr>';
+                    text += '       <td></td>';
+                    text += '       <td></td>';                      
+                    text += '       <td>Total</td>';  
+                    text += '       <td>'+totalPrecio.toFixed(2)+'</td>';  
+                    text += '   </tr>';       
+                    text += '   </tfoot>';
                     text += '   </table>';
 
                     $("#divResumenPedidoDetalle").append(text);

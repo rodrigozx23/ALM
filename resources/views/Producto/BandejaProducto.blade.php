@@ -161,13 +161,16 @@ input[type=submit] {
                 <div class="modal-content">
                     <div class="modal-body">
                         <div id="divContentProductoDetalle">    
-                                <row>                                   
-                                    <br />
+                                <row>   
+                      
+                                        <h6 style="margin: 10px 0 0 0; font-weight:600;">Lista Detalle de Producto</h6>
+                                         
+                                    <br />                                    
                                     <div id="divProductoDetalle"></div>
                                     <!--<table id="dvProductoDetalle"  class="table table-striped table-hover responsive"></table>-->
                                 </row>
                                 <row>    
-                                    <button onClick="onNuevoDetalle(this)" type="button"  class="btn btn-primary">Nuevo</button>
+                                    <button onClick="onNuevoDetalle(this)" type="button"  class="btn btn-primary">Agregar Item</button>
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                                 </row>                
                         </div>  
@@ -206,7 +209,7 @@ input[type=submit] {
                                         <label>Costo Produccion:</label>
                                         <input type="text" class="form-control" name="prod_dbl_costo_produccion_item"  >
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Agregar</button>
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>                             
                                 </form>
                             </div>  
