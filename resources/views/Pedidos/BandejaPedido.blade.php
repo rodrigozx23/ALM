@@ -6,6 +6,12 @@
 body {
   font: 16px Arial;
 }
+.btnPed{
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black;
+}
 .autocomplete {
   /*the container must be positioned relative:*/
   width: 100%;
@@ -158,7 +164,9 @@ input[type=submit] {
         <div class="col-sm-2">                    
             <div id="targetList" class="list-group"></div>
         </div>
-        <div class="col-sm-10">                   
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-9">                   
             <div  class="Container">                 
                     <div class="row align-items-center">        
                         <div class="box-default">
@@ -191,6 +199,8 @@ input[type=submit] {
                 $("#divProductoDetalle").empty();
                 PedidoDetalle = [];
             });
+
+            CrearBotonesPedidos()
     });
     
     function onClickNuevo (e){            
@@ -415,11 +425,9 @@ input[type=submit] {
             data: JSON.stringify(envio),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-            
                 $("#divProductoDetalle").empty();                  
-                $('#divProductoDetalleModal').modal('hide');                                      
-let text = '<button id="" onclick="return  CrearTablaManual('+data.data+')" type="button" class="list-group-item list-group-item-action" value="'+data.data+'">Pedido</button>';
-                $("#targetList").append(text);
+                $('#divProductoDetalleModal').modal('hide');
+                CrearBotonesPedidos();
                 PedidoDetalle = [];                
             }
         });   
@@ -428,7 +436,6 @@ let text = '<button id="" onclick="return  CrearTablaManual('+data.data+')" type
     
     function CrearTablaManual(e){
             $("#divResumenPedidoDetalle").empty();
-            debugger;
             let text = '';
             
             $.get("listarPedidoDetalle/"+e,{},function(data){
@@ -460,5 +467,17 @@ let text = '<button id="" onclick="return  CrearTablaManual('+data.data+')" type
                     $("#divResumenPedidoDetalle").append(text);
             },'json')
         }
+     
+    function CrearBotonesPedidos(){
+        $("#targetList").empty();
+        let text = '';
+        
+        $.get("listarPedidos/",{},function(data){
+            for(var i = 0; i < data.data.length; i++){
+                text += '<button id="" onclick="return  CrearTablaManual('+data.data[i]['ped_int_id']+')" type="button" class="list-group-item list-group-item-action btnPed" value="'+data.data[i]['ped_int_id']+'">Pedido</button>';
+            }
+            $("#targetList").append(text);
+        },'json')
+    }
 </script>
 @stop

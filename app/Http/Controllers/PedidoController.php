@@ -192,13 +192,22 @@ class PedidoController extends Controller
     }
 
     
+    public function listarPedidos()
+    { 
+
+      $Pedido =  DB::select('select * from tb_pedidos p where ped_int_estado_pedido = 2');
+      
+      return response()
+            ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$Pedido]);
+    }
+
+    
     public function listarPedidoDetalle($id)
     { 
 
       $PedidoDetalle =  DB::select('select pd.*, p.pro_str_nombre from 
       tb_pedidos_detalle pd inner join tb_productos p on pd.pro_int_id = p.pro_int_id 
       where pedd_int_estado_detalle = 1 and ped_int_id = ?', [$id] );
-      //var_dump($ProductoDetalle);
       
       return response()
             ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$PedidoDetalle]);
