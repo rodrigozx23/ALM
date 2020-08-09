@@ -114,12 +114,72 @@ input[type=submit] {
                     </div>
                 </div>
         </div>
-    </div>
-    <div class="row">  
 
-        <div id="targetDIV" class="col-lg-12">
-
+        <div class="modal fade" id="divPedidoModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div id="divContentPedido">    
+                                    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                                    <row> 
+                                        <form id="UpdatePedido" target="dummyframe">                               
+                                            <input class="form-control" name="ped_int_id" id="ped_int_id" hidden>                             
+                                                                   
+                                         </form>  
+                                    </row>
+                                    <row>
+                                        <table id="tabledp" class="table table-striped table-hover responsive">
+                                            <thead>
+                                                <tr>
+                                                <th>#</th>
+                                                <th>Descripcion</th>
+                                                <th>Cantidad</th>
+                                                <th>Sub Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="divPedidoDetalle">
+                                            </tbody>
+                                            <tfoot id="divTotalesPD">
+                                            </tfoot>
+                                        </table>                               
+                                    </row>
+                                    <row>    
+                                        <button onClick="" type="button"  class="btn btn-primary">CancelarPedido</button>
+                                        <button onClick="" type="button"  class="btn btn-primary">GUARDAR</button>
+                                        <button type="button" class="btn btn-primary" id="idCerrarNuevoDetalle" data-dismiss="modal">Cerrar</button>
+                                    </row>                
+                            </div>  
+                        </div>
+                    </div>
+                </div>
         </div>
+    </div>
+    <div class="row"> 
+        <div class="col-lg-12">
+            <div class="col-md-2">                    
+		        <div id="targetList" class="list-group">
+
+                </div>
+		    </div>
+            <div class="col-md-10">                   
+                <div  class="Container">
+                    <div class="wrapper wrapper-content">
+                        <div class="row">       
+                                <div class="col-lg-10">
+                                    <div class="box-default">
+                                        <div class="table-responsive">
+                                            <br />
+                                            <div id="divResumenPedidoDetalle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+		    </div>
+        </div>
+
     </div>
 
 
@@ -142,13 +202,6 @@ input[type=submit] {
                 $("#divProductoDetalle").empty();
                 PedidoDetalle = [];
             });
-
-            var s="<div name='prueba' class='col-md-3'>NUMERO PEDIDO.</div>";
-            $("#targetDIV").append(s)    
-            //crearTablaProducto();
-
-            
-
     });
     
     function onClickNuevo (e){            
@@ -315,8 +368,6 @@ input[type=submit] {
 
     let PedidoDetalle = []
     function insertarDetalloPedido(parametros){
-
-
         const DETALLE = {
                     IdPedido: 0,
                     IdProducto: 0,
@@ -349,8 +400,6 @@ input[type=submit] {
             PedidoDetalle.push(pedidodetalle);     
         }
 
-
-        let text = '';
         let textDetalle = '';
       
          $("#divProductoDetalle").empty();
@@ -364,7 +413,6 @@ input[type=submit] {
             textDetalle += '       <td>'+PedidoDetalle[i]['Precio']+'</td>';  
             textDetalle += '   <tr>';    
             contador++; 
-
         }                                  
         $("#divProductoDetalle").append(textDetalle);
     }
@@ -378,13 +426,47 @@ input[type=submit] {
             data: JSON.stringify(envio),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                $('#ped_int_id').val(data.data);
-                $("#divProductoDetalle").empty();
-                $('#divProductoDetalleModal').modal('hide');
-                PedidoDetalle = [];
+            
+                $("#divProductoDetalle").empty();                  
+                $('#divProductoDetalleModal').modal('hide');                                      
+let text = '<button onClick="return  CrearTablaManual(this)" type="button" class="list-group-item list-group-item-action" value="'+data.data+'">Pedido</button>';
+                $("#targetList").append(text);
+                PedidoDetalle = [];                
             }
         });    
+    
+        function CrearTablaManual(e){
+            DEBUGGER;
+            let text = '';
+            var _Pedido = $("#divProductoDetalle").val();
+            $.get("listarPedidoDetalle/"+_Pedido,{},function(data){
+                console.log(data);
+                    let cant = 1;
+                    text += '<table class="table table-striped table-hover responsive">';
+                    text += '   <thead>';
+                    text += '   <tr>';
+                    text += '       <th>#</th>';
+                    text += '       <th>Descripcion</th>';
+                    text += '       <th>Cantidad</th>';
+                    text += '       <th>Costo Venta</th>'; 
+                    text += '   </tr>';
+                    text += '   </thead>';
+                    text += '   <tbody>';
+                    for(var i = 0; i< data.data.length; i++){
+                        text += '   <tr>';
+                        text += '       <td>'+cant+'</td>';
+                        text += '       <td>'+data.data[i]['pro_str_nombre']+'</td>';                      
+                        text += '       <td>'+data.data[i]['pedd_int_cantidad']+'</td>';  
+                        text += '       <td>'+data.data[i]['pedd_dbl_precio']+'</td>';  
+                        text += '   </tr>';
+                        cant++;
+                    }      
+                    text += '   </tbody>';
+                    text += '   </table>';
+
+                    $("#divResumenPedidoDetalle").append(text);
+            },'json')
+        }
     }
 </script>
-
 @stop
