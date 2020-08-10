@@ -244,7 +244,7 @@ class AlmacenController extends Controller
         $ProductoDetalleInsert->prod_str_usuario_modificacion =  "Admin";
         $ProductoDetalleInsert->prod_dbl_costo_produccion_item = $request->input('prod_dbl_costo_produccion_item');    
         $ProductoDetalleInsert->prod_dbl_cantidad_item = $request->input('prod_dbl_cantidad_item');
-        $ProductoDetalleInsert->prod_str_tipo_medida_salida = "";
+        $ProductoDetalleInsert->prod_str_tipo_medida_salida = " ";
         $ProductoDetalleInsert->prod_int_tipo_medida_salida = $request->input('prod_int_tipo_medida_salida');
 
         $this->productodetalleObject->create($ProductoDetalleInsert->toArray());       

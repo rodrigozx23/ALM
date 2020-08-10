@@ -61,28 +61,41 @@
                         <div>
                                 <form action="{{url('/guardarItem')}}" method="post"> 
                                 @csrf
-                                    <div class="form-group">                                    
+                                <div class="row">
+                                    <div class="col-md-6">                                    
                                         <label>Nombre:</label>
                                         <input type="text" class="form-control" name="invi_str_nombre">
                                     </div>
-                                    <div class="form-group" >
+                                    <div class="col-md-6" >
                                         <label>Unidad Medida:</label>
                                         <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" >
                                             <option selected>Seleccione...</option>
                                             <option value="1">Unidad</option>
                                             <option value="2">Kilos</option>        
                                         </select>
-                                    </div>
-                                    <div class="form-group"> 
+                                    </div>  
+                                     </div>
+                                     <div class="row">
+                                    <div class="col-md-6"> 
                                         <label>Cantidad:</label>
                                         <input type="text" class="form-control" name="invi_dbl_cantidad_total_item">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="col-md-6">
                                         <label>Peso:</label>
                                         <input type="text" class="form-control" name="invi_dbl_peso_neto"  >
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button onClick="onSalir(this)"  type="button" class="btn btn-primary">Cerrar</button>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                        </div>                                                                             
+                                        <div class="col-md-2">
+                                            <button onClick="onSalir(this)"  type="button" class="btn btn-primary btn-block">Cerrar</button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                                        </div>
+                                    </div>                                                                   
                                 </form>
                             </div>  
                         </div>
@@ -99,29 +112,42 @@
                         <div>
                                 <form action="{{url('/editarItem')}}" method="post"> 
                                 @csrf
+                                    <div class="row">
                                     <input  class="form-control" name="invi_int_id" id="Uinvi_int_id" hidden>
-                                    <div class="form-group">                                    
-                                        <label>Nombre:</label>
-                                        <input type="text" class="form-control" name="invi_str_nombre" id="Uinvi_str_nombre">
+                                        <div class="col-md-6">                                    
+                                            <label>Nombre:</label>
+                                            <input type="text" class="form-control" name="invi_str_nombre" id="Uinvi_str_nombre">
+                                        </div>
+                                        <div class="col-md-6" >
+                                            <label>Unidad Medida:</label>
+                                            <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" id="Uitm_int_tipo_medida_entrada">
+                                                <option selected>Seleccione...</option>
+                                                <option value="1">Unidad</option>
+                                                <option value="2">Kilos</option>        
+                                            </select>
+                                        </div>   
                                     </div>
-                                    <div class="form-group" >
-                                        <label>Unidad Medida:</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" id="Uitm_int_tipo_medida_entrada">
-                                            <option selected>Seleccione...</option>
-                                            <option value="1">Unidad</option>
-                                            <option value="2">Kilos</option>        
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-md-6"> 
+                                            <label>Cantidad:</label>
+                                            <input type="text" class="form-control" name="invi_dbl_cantidad_total_item" id="Uinvi_dbl_cantidad_total_item">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Peso:</label>
+                                            <input type="text" class="form-control" name="invi_dbl_peso_neto" id="Uinvi_dbl_peso_neto" >
+                                        </div>                                   
                                     </div>
-                                    <div class="form-group"> 
-                                        <label>Cantidad:</label>
-                                        <input type="text" class="form-control" name="invi_dbl_cantidad_total_item" id="Uinvi_dbl_cantidad_total_item">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Peso:</label>
-                                        <input type="text" class="form-control" name="invi_dbl_peso_neto" id="Uinvi_dbl_peso_neto" >
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button onClick="onSalir(this)"  type="button" class="btn btn-primary">Cerrar</button>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                        </div>                                                                             
+                                        <div class="col-md-2">
+                                            <button onClick="onSalir(this)"  type="button" class="btn btn-primary btn-block">Cerrar</button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                                        </div>
+                                    </div>                                                                        
                                 </form>
                             </div>  
                         </div>

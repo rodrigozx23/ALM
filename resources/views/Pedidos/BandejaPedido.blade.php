@@ -62,6 +62,14 @@ input[type=submit] {
 #divContentProductoDetalle{
     padding: 10px;
 }
+
+#tbPedDet {
+    display: table-cell;
+}
+#tbPedDet > table {
+    width: 100%;
+}
+
 </style>
 <div  class="wrapper wrapper-content">
 
@@ -129,7 +137,7 @@ input[type=submit] {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary align-left float-right">Añadir Pedido</button>
+                                                    <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary float-right ">Añadir Pedido</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -151,12 +159,12 @@ input[type=submit] {
                                     <div class="row">
                                         <div class="col-md-7">
                                         </div>
-                                        <div class="col-md-3">
-                                            <button onClick="onConfirmar(this)" type="button"  class="btn btn-primary">Confirmar Pedido</button>
-                                        </div>                                        
                                         <div class="col-md-2">
-                                            <button type="button" class="btn btn-primary" id="idCerrarNuevoDetalle" data-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primary btn-block" id="idCerrarNuevoDetalle" data-dismiss="modal">Cerrar</button>
                                         </div>
+                                        <div class="col-md-3">
+                                            <button onClick="onConfirmar(this)" type="button"  class="btn btn-primary btn-block">Confirmar Pedido</button>
+                                        </div>                                                                          
                                     </div>
                             </div>
                         </div>
@@ -210,27 +218,24 @@ input[type=submit] {
         <div class="col-sm-1">
         </div>
         <div class="col-sm-9">                   
-            <div  class="Container">                 
-                    <div class="row align-items-center">        
-                        <div class="box-default">
-                            <div>
-                                <br />
-                                <div class="row" >
-                                    <div class="col-md-9">
-                                    </div>
-                                    <div id="ConfirmarPedido" class="col-md-3" style="display:none">
-                                        <input id="key_id_pedido" hidden>
-                                        <button type="button" class="btn btn-primary align-left float-right" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
-                                    </div>
-                                </div >
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div id="divResumenPedidoDetalle"></div>
-                                    </div>                             
+            <div class="Container">                 
+               
+                        <input id="key_id_pedido" hidden>     
+                        <div class="row">                                     
+                                <div class="col-md-6">
+                             
                                 </div>
-                            </div>
+                                <div id="ConfirmarPedido" class="col-md-3" style="display:none">                                 
+                                    <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
+                                </div>                                                                                                                                                    
                         </div>
-                    </div>               
+                
+               
+                        <div class="row">                                                            
+                                <br />  
+                                <div id="divResumenPedidoDetalle"></div>                                                                                 
+                        </div>
+                           
                 </div>
             </div>	
         </div>
@@ -504,7 +509,7 @@ input[type=submit] {
             $.get("listarPedidoDetalle/"+e,{},function(data){
                 console.log(data);
                     let cant = 1;
-                    text += '<table class="table table-striped table-hover responsive">';
+                    text += '<table id="tbPedDet" class="table table-striped table-hover responsive">';
                     text += '   <thead>';
                     text += '   <tr>';
                     text += '       <th>#</th>';
