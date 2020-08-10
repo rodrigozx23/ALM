@@ -63,18 +63,14 @@ input[type=submit] {
     padding: 10px;
 }
 
-#tbPedDet {
-    display: table-cell;
-}
-#tbPedDet > table {
-    width: 100%;
+#div_sep {
+  margin-top: 50px;
 }
 
 </style>
 <div  class="wrapper wrapper-content">
 
     <div class="row">
-
         <div class="col-md-10">
         </div>
         <div class="col-md-2">
@@ -82,6 +78,7 @@ input[type=submit] {
                 <strong>Nuevo</strong>
             </button>
         </div>
+
         <div class="modal fade" id="divProductoDetalleModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -211,29 +208,30 @@ input[type=submit] {
                 </div>
         </div>
     </div>
-    <div class="row"> 
+    <div class="row" > 
         <div class="col-sm-2">                    
             <div id="targetList" class="list-group"></div>
         </div>
         <div class="col-sm-1">
         </div>
         <div class="col-sm-9">                   
-            <div class="Container">                 
+            <div class="Container" id="div_sep">                 
                
                         <input id="key_id_pedido" hidden>     
                         <div class="row">                                     
-                                <div class="col-md-6">
+                                <div class="col-md-9">
                              
                                 </div>
                                 <div id="ConfirmarPedido" class="col-md-3" style="display:none">                                 
                                     <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
-                                </div>                                                                                                                                                    
+                                </div>   
+                                <br />                                                                                                                                                   
                         </div>
                 
                
-                        <div class="row">                                                            
+                        <div class="row" id="div_sep">                                                            
                                 <br />  
-                                <div id="divResumenPedidoDetalle"></div>                                                                                 
+                                <div class="col-md-12" id="divResumenPedidoDetalle"></div>                                                                                 
                         </div>
                            
                 </div>
@@ -509,7 +507,7 @@ input[type=submit] {
             $.get("listarPedidoDetalle/"+e,{},function(data){
                 console.log(data);
                     let cant = 1;
-                    text += '<table id="tbPedDet" class="table table-striped table-hover responsive">';
+                    text += '<table id="tbPedDet" class="table table-striped table-hover responsive" style="width:100%">';
                     text += '   <thead>';
                     text += '   <tr>';
                     text += '       <th>#</th>';
@@ -524,9 +522,9 @@ input[type=submit] {
                         console.log(data.data);
                         text += '   <tr>';
                         text += '       <td>'+cant+'</td>';
-                        text += '       <td>'+data.data[i]['pro_str_nombre']+'</td>';                      
-                        text += '       <td>'+data.data[i]['pedd_int_cantidad']+'</td>';  
-                        text += '       <td>'+data.data[i]['pedd_dbl_precio']+'</td>';  
+                        text += '       <td style="text-align:left">'+data.data[i]['pro_str_nombre']+'</td>';                      
+                        text += '       <td style="text-align:right">'+data.data[i]['pedd_int_cantidad']+'</td>';  
+                        text += '       <td style="text-align:right">'+data.data[i]['pedd_dbl_precio']+'</td>';  
                         text += '   </tr>';
                         cant++;              
                         totalPrecio += parseFloat(data.data[i]['pedd_dbl_precio']); 
@@ -537,8 +535,8 @@ input[type=submit] {
                     text += '   <tr>';
                     text += '       <td></td>';
                     text += '       <td></td>';                      
-                    text += '       <td>Total</td>';  
-                    text += '       <td>'+totalPrecio.toFixed(2)+'</td>';  
+                    text += '       <td style="text-align:left">Total</td>';  
+                    text += '       <td style="text-align:right">'+totalPrecio.toFixed(2)+'</td>';  
                     text += '   </tr>';       
                     text += '   </tfoot>';
                     text += '   </table>';
@@ -547,7 +545,8 @@ input[type=submit] {
 
             },'json');
             var div2 = document.getElementById('ConfirmarPedido');
-            div2.style.display = 'block';         
+            div2.style.display = 'block';    
+            $("#tbPedDet").css({"display": " table-cell", "width": "100%"});    
     }
     
     function CrearBotonesPedidos(){

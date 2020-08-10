@@ -539,10 +539,10 @@ input[type=submit] {
                     for(var i = 0; i< data.data.length; i++){
                         text += '   <tr>';
                         text += '       <td>'+cant+'</td>';
-                        text += '       <td>'+data.data[i]['prod_str_nombre']+'</td>';                      
-                        text += '       <td>'+data.data[i]['prod_int_tipo_medida_salida']+'</td>';  
-                        text += '       <td>'+data.data[i]['prod_dbl_cantidad_item']+'</td>';  
-                        text += '       <td>'+data.data[i]['prod_dbl_costo_produccion_item']+'</td>';  
+                        text += '       <td style="text-align:left">'+data.data[i]['prod_str_nombre']+'</td>';                      
+                        text += '       <td style="text-align:right">'+data.data[i]['prod_int_tipo_medida_salida']+'</td>';  
+                        text += '       <td style="text-align:right">'+data.data[i]['prod_dbl_cantidad_item']+'</td>';  
+                        text += '       <td style="text-align:right">'+data.data[i]['prod_dbl_costo_produccion_item']+'</td>';  
                         text += '   </tr>';
                         cant++;
                     }      
