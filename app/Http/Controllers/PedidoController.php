@@ -193,7 +193,7 @@ class PedidoController extends Controller
     public function listarPedidos()
     { 
 
-      $Pedido =  DB::select('select * from tb_pedidos p where ped_int_estado_pedido = 2');
+      $Pedido =  DB::select('select * from tb_pedidos p where ped_int_estado_pedido = 1');
       
       return response()
             ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$Pedido]);
