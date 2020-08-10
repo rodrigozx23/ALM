@@ -197,8 +197,9 @@ input[type=submit] {
                                         <label>Unidad Medida:</label>
                                         <select class="custom-select my-1 mr-sm-2" name="prod_int_tipo_medida_salida">
                                             <option selected>Seleccione...</option>
-                                            <option value="1">Unidad</option>
-                                            <option value="2">Kilos</option>        
+                                            <option value="6">Unidad</option>
+                                            <option value="7">Gramos</option>  
+                                            <option value="8">Kilos</option> >        
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -507,7 +508,7 @@ input[type=submit] {
                                     columns: [
 
                                         { title: "Descripcion", data: "prod_str_nombre", name: "prod_str_nombre", "autoWidth": true },
-                                        { title: "Unidad Medida - Salida", data: "prod_int_tipo_medida_salida", name: "prod_int_tipo_medida_salida", "autoWidth": true , "className": "text-right"},
+                                        { title: "Unidad Medida - Salida", data: "mlt_str_descripcion", name: "mlt_str_descripcion", "autoWidth": true , "className": "text-right"},
                                         { title: "Cantidad", data: "prod_dbl_cantidad_item", name: "prod_dbl_cantidad_item", "autoWidth": true, "className": "text-right" },
                                         { title: "Costo Produccion", data: "prod_dbl_costo_produccion_item", name: "prod_dbl_costo_produccion_item", "autoWidth": true },
 
@@ -540,7 +541,7 @@ input[type=submit] {
                         text += '   <tr>';
                         text += '       <td>'+cant+'</td>';
                         text += '       <td style="text-align:left">'+data.data[i]['prod_str_nombre']+'</td>';                      
-                        text += '       <td style="text-align:right">'+data.data[i]['prod_int_tipo_medida_salida']+'</td>';  
+                        text += '       <td style="text-align:left">'+data.data[i]['mlt_str_descripcion']+'</td>';  
                         text += '       <td style="text-align:right">'+data.data[i]['prod_dbl_cantidad_item']+'</td>';  
                         text += '       <td style="text-align:right">'+data.data[i]['prod_dbl_costo_produccion_item']+'</td>';  
                         text += '   </tr>';

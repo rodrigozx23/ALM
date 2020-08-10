@@ -122,7 +122,8 @@
                                             <label>Unidad Medida:</label>
                                             <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" id="Uitm_int_tipo_medida_entrada">
                                                 <option selected>Seleccione...</option>
-                                                <option value="1">Unidad</option>
+                                                <option value="4">Unidad</option>
+                                                <option value="3">Gramos</option>  
                                                 <option value="2">Kilos</option>        
                                             </select>
                                         </div>   
@@ -183,7 +184,7 @@
                                             }
                                         },
                                         { title: "Descripcion", data: "invi_str_nombre", name: "invi_str_nombre", "autoWidth": true },
-                                        { title: "Unidad Medida", data: "itm_int_tipo_medida_entrada", name: "itm_int_tipo_medida_entrada", "autoWidth": true },
+                                        { title: "Unidad Medida", data: "mlt_str_descripcion", name: "mlt_str_descripcion", "autoWidth": true },
                                         { title: "Cantidad", data: "invi_dbl_cantidad_total_item", name: "invi_dbl_cantidad_total_item", "autoWidth": true , "className": "text-right"},
                                         { title: "Peso", data: "invi_dbl_peso_neto", name: "invi_dbl_peso_neto", "autoWidth": true, "className": "text-right" },
                                         { title: "UsuarioCreacion", data: "invi_str_usuario_creacion", name: "invi_str_usuario_creacion", "autoWidth": true },

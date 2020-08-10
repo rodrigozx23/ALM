@@ -33,9 +33,12 @@ class AlmacenController extends Controller
 
     public function listarAlmacen()
     {
-      $iItems = $this->iteminventarioObject->getAll();
+      
+      $iItems =  DB::select('select i.*, ma.mlt_str_descripcion from tb_item_inventario i
+      inner join tb_multiusos_almacen ma on i.itm_int_tipo_medida_entrada = ma.mlt_int_id');
+      //var_dump($ProductoDetalle);
       return response()
-            ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$iItems->toArray()]);
+            ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$iItems]);
     }
 
     public function searchItem($id)
@@ -153,7 +156,8 @@ class AlmacenController extends Controller
     public function listarProductoDetalle($id)
     { 
 
-      $ProductoDetalle =  DB::select('select * from tb_productos_detalle where pro_int_id=?', [$id] );
+      $ProductoDetalle =  DB::select('select pd.*, ma.mlt_str_descripcion from tb_productos_detalle pd
+      inner join tb_multiusos_almacen ma on pd.prod_int_tipo_medida_salida = ma.mlt_int_id where pro_int_id = ?', [$id] );
       //var_dump($ProductoDetalle);
       
       return response()
