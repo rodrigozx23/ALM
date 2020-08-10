@@ -86,48 +86,53 @@ input[type=submit] {
                                         </button>
                                     </div>
                                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <label>Direccion:</label>
-                                                        <input type="text" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
-                                                    </div>                                            
-                                                </div>
-                                                <br>                                                
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label>Nombre:</label>
-                                                        <input type="text" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label>Telefono:</label>
-                                                        <input type="text" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
-                                                    </div>                                      
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Telefono:</label>
+                                                <input type="text" class="form-control" name="" id="" >
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Nombre:</label>
+                                                <input type="text" class="form-control" name="" id="" >
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <form id="CreatePedido" target="dummyframe">                               
-                                                <input class="form-control" name="pro_int_id" id="pro_int_id" hidden>
-                                                <input class="form-control" name="ped_int_id" id="ped_int_id" hidden>
-                                                <div class="form-group autocomplete">                                    
-                                                    <label for="pro_str_nombre" >Producto:</label>
-                                                    <input class="form-control" name="pro_str_nombre" id="pro_str_nombre" autocomplete="off">
-                                                </div>                                  
-                                                <div class="form-group row">
-                                                    <div class="col-md-6">
-                                                        <label>Cantidad:</label>
-                                                        <input type="number" min="1" max="100" value="1" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Direccion:</label>
+                                                <input type="text" class="form-control" name="" id="" >
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form id="CreatePedido" target="dummyframe">                               
+                                                    <input class="form-control" name="pro_int_id" id="pro_int_id" hidden>
+                                                    <input class="form-control" name="ped_int_id" id="ped_int_id" hidden>
+                                                    <div class="row">
+                                                        <div class="col-md-6">                                                    
+                                                            <div class="form-group autocomplete">
+                                                                <label for="pro_str_nombre" >Producto:</label>
+                                                                <input class="form-control" name="pro_str_nombre" id="pro_str_nombre" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">                                       
+                                                            <div class="form-group row">
+                                                                <div class="col-md-6">
+                                                                    <label>Cantidad:</label>
+                                                                    <input type="number" min="1" max="100" value="1" class="form-control" name="pedd_int_cantidad" id="pedd_int_cantidad" >
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label>Precio Unitario:</label>
+                                                                    <input type="text" class="form-control" name="pedd_dbl_precio" id="pedd_dbl_precio">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <label>Precio Unitario:</label>
-                                                        <input type="text" class="form-control" name="pedd_dbl_precio" id="pedd_dbl_precio"  >
-                                                    </div>                                                                         
-                                                </div>                                        
-                                                <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary">Añadir Pedido</button>    
-                                            </form>                                                                   
-                                        </div>     
-                                    </div>
+                                                    <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary align-left float-right">Añadir Pedido</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     <br>
                                     <div class="row">
                                         <table id="tableDetallePedido" class="table table-striped table-hover responsive">
@@ -152,8 +157,8 @@ input[type=submit] {
                                         <div class="col-md-2">
                                             <button type="button" class="btn btn-primary" id="idCerrarNuevoDetalle" data-dismiss="modal">Cerrar</button>
                                         </div>
-                                    </div>                
-                            </div>  
+                                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -163,7 +168,7 @@ input[type=submit] {
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div id="divContentPedido">    
+                            <div id="divContentPedido">
                                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
                                     <row> 
                                         <form id="UpdatePedido" target="dummyframe">                               
@@ -270,6 +275,7 @@ input[type=submit] {
         // RETORNE SU ID -> PARA VALIDAR LAS MODAS
         var pro_id = $('#pro_int_id').val();
         if(pro_id.length == 0 || pro_id.length < 0){
+            $('.alert').alert();
             $('#MensajeError').text("Debe Seleccionar un producto.");
             return;
         }
