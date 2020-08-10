@@ -94,18 +94,18 @@ input[type=submit] {
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>Telefono:</label>
-                                                <input type="text" class="form-control" name="" id="" >
+                                                <input type="text" class="form-control" name="ped_str_telefono_cliente" id="ped_str_telefono_cliente">
                                             </div>
                                             <div class="col-md-6">
                                                 <label>Nombre:</label>
-                                                <input type="text" class="form-control" name="" id="" >
+                                                <input type="text" class="form-control" name="ped_str_nombre_cliente" id="ped_str_nombre_cliente">
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>Direccion:</label>
-                                                <input type="text" class="form-control" name="" id="" >
+                                                <input type="text" class="form-control" name="ped_str_direccion_cliente" id="ped_str_direccion_cliente">
                                             </div>
                                         </div>
                                         <br>
@@ -134,7 +134,7 @@ input[type=submit] {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary float-right ">Añadir Pedido</button>
+                                                    <button onClick="onAddPedidoDetalle(this)" class="btn btn-primary float-right">Añadir Pedido</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -483,12 +483,21 @@ input[type=submit] {
     }
 
     function onConfirmar (){
-        var envio = PedidoDetalle;
-        console.log(JSON.stringify(envio));
+        var pedDet = PedidoDetalle;
+
+        debugger;
+
+        const cliente = {
+            Telefono: $("#ped_str_telefono_cliente").val(),
+            Nombre: $('#ped_str_nombre_cliente').val(),
+            Direccion: $('#ped_str_direccion_cliente').val()
+        };
+
         $.ajax({
             type: 'POST',
             url: 'guardarPedido'+'?_token=' + '{{ csrf_token() }}',
-            data: JSON.stringify(envio),
+            dataType: 'json',
+            data: JSON.stringify({'ped': pedDet, 'cli': cliente}),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 $("#divProductoDetalle").empty();                  
@@ -505,7 +514,6 @@ input[type=submit] {
             var totalPrecio = 0;    
             $("#key_id_pedido").val(e);
             $.get("listarPedidoDetalle/"+e,{},function(data){
-                console.log(data);
                     let cant = 1;
                     text += '<table id="tbPedDet" class="table table-striped table-hover responsive" style="width:100%">';
                     text += '   <thead>';
@@ -519,7 +527,6 @@ input[type=submit] {
                     text += '   <tbody>';
 
                     for(var i = 0; i< data.data.length; i++){
-                        console.log(data.data);
                         text += '   <tr>';
                         text += '       <td>'+cant+'</td>';
                         text += '       <td style="text-align:left">'+data.data[i]['pro_str_nombre']+'</td>';                      

@@ -117,40 +117,46 @@ class PedidoController extends Controller
      */
     public function storePedido(Request $request)
     {
-        //$input = $request->all();
-      
+        $input =  (json_decode($request->getContent(), true));
+
         $mytime =Carbon::now();     
-        $PedidoInsert = new ped;   
-        $PedidoDetalleInsert = new pedd;                
-            $PedidoInsert->ped_str_mesa = "Test";
-            $PedidoInsert->ped_dat_fecha_inicio = $mytime;
-            // MONTOS
-            $PedidoInsert->ped_dbl_igv = 0;    
-            $PedidoInsert->ped_dbl_isc = 0;
-            $PedidoInsert->ped_dbl_valor_neto = 0;    
-            $PedidoInsert->ped_dbl_venta_total = 0;
-            $PedidoInsert->ped_dbl_descuento = 0;
-            // ESTADOS DEL PEDIDO
-            $PedidoInsert->ped_bit_cancelado = 0;
-            $PedidoInsert->ped_bit_combo = 0;
-            $PedidoInsert->ped_int_estado_pedido = 1; //CREADO
-            $PedidoInsert->ped_int_estado = 1;
-            // AUDITORIA
-            $PedidoInsert->ped_int_empresa = 1;
-            $PedidoInsert->ped_dat_fecha_creacion = $mytime;
-            $PedidoInsert->ped_str_fecha_modificacion = $mytime;
-            $PedidoInsert->ped_str_usuario_creacion = "Admin";
-            $PedidoInsert->ped_str_usuario_modificacion =  "Admin";
+        $PedidoInsert = new ped;
+        $PedidoDetalleInsert = new pedd;
+        $PedidoInsert->ped_str_mesa = "Test";
+        $PedidoInsert->ped_dat_fecha_inicio = $mytime;
+        //CLIENTE
+        $PedidoInsert->ped_str_telefono_cliente = $input['cli']['Telefono'];
+        $PedidoInsert->ped_str_nombre_cliente = $input['cli']['Nombre'];
+        $PedidoInsert->ped_str_direccion_cliente = $input['cli']['Direccion'];
+        // MONTOS
+        $PedidoInsert->ped_dbl_igv = 0;
+        $PedidoInsert->ped_dbl_isc = 0;
+        $PedidoInsert->ped_dbl_valor_neto = 0;    
+        $PedidoInsert->ped_dbl_venta_total = 0;
+        $PedidoInsert->ped_dbl_descuento = 0;
+        // ESTADOS DEL PEDIDO
+        $PedidoInsert->ped_bit_cancelado = 0;
+        $PedidoInsert->ped_bit_combo = 0;
+        $PedidoInsert->ped_int_estado_pedido = 1; //CREADO
+        $PedidoInsert->ped_int_estado = 1;
+        // AUDITORIA
+        $PedidoInsert->ped_int_empresa = 1;
+        $PedidoInsert->ped_dat_fecha_creacion = $mytime;
+        $PedidoInsert->ped_str_fecha_modificacion = $mytime;
+        $PedidoInsert->ped_str_usuario_creacion = "Admin";
+        $PedidoInsert->ped_str_usuario_modificacion =  "Admin";
 
         $this->pedidoObject->create($PedidoInsert->toArray());    
 
         $insertedId = $id = DB::getPdo()->lastInsertId();  
-        
-        //$select_data = $request->all();
-        $select_data =  (json_decode($request->getContent(), true));
+
         $total_precio_venta = 0;
-        foreach ($select_data as $item)
+
+        ($input['ped']);
+
+        foreach ($input['ped'] as $item)
         {
+            error_log($item['IdProducto']);
             $PedidoDetalleInsert->pedd_dbl_precio = $item['Precio'] ;
             $PedidoDetalleInsert->pedd_int_cantidad = $item['Cantidad'] ;
             $PedidoDetalleInsert->ped_int_id = $insertedId;
