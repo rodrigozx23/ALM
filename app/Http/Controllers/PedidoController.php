@@ -179,8 +179,6 @@ class PedidoController extends Controller
         $Pedido->ped_dbl_valor_neto = $total_precio_venta;// SUM()    
 
         $Pedido->ped_dbl_venta_total = $total_precio_venta;// ped_dbl_valor_neto+ped_dbl_isc+ped_dbl_igv+ped_dbl_descuento
-        // ESTADOS DEL PEDIDO                
-        $Pedido->ped_int_estado_pedido = 2; //PROCESO
         // AUDITORIA                     
         $Pedido->ped_str_fecha_modificacion = $mytime; 
         $Pedido->ped_str_usuario_modificacion =  "Admin";
@@ -211,5 +209,33 @@ class PedidoController extends Controller
       
       return response()
             ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$PedidoDetalle]);
+    }
+
+      /**
+     * Store a new Item. Debe devolver una vista
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function sellPedido($id)
+    {   
+        $mytime =Carbon::now();     
+        $PedidoInsert = new ped;             
+        //ID
+        $insertedId = $id;  
+        $Pedido = new ped;
+        // MONTOS
+        $Pedido->ped_int_estado_pedido = 3; //VENDIDO    
+        // AUDITORIA                     
+        $Pedido->ped_str_fecha_modificacion = $mytime; 
+        $Pedido->ped_str_usuario_modificacion =  "Admin";
+
+        $this->pedidoObject->update($insertedId, $Pedido->toArray());    
+
+        $PedidoDetalle =  DB::select('CALL SP_CERRAR_PEDIDO (?,?,?)', [$id,"Admin",3] );
+        
+        return response()
+            ->json(['data' =>$insertedId], 200);
+
     }
 }

@@ -213,9 +213,21 @@ input[type=submit] {
             <div  class="Container">                 
                     <div class="row align-items-center">        
                         <div class="box-default">
-                            <div class="table-responsive">
+                            <div>
                                 <br />
-                                <div id="divResumenPedidoDetalle"></div>
+                                <div class="row" >
+                                    <div class="col-md-9">
+                                    </div>
+                                    <div id="ConfirmarPedido" class="col-md-3" style="display:none">
+                                        <input id="key_id_pedido" hidden>
+                                        <button type="button" class="btn btn-primary align-left float-right" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
+                                    </div>
+                                </div >
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divResumenPedidoDetalle"></div>
+                                    </div>                             
+                                </div>
                             </div>
                         </div>
                     </div>               
@@ -483,12 +495,12 @@ input[type=submit] {
             }
         });   
     }
-     
-    
+       
     function CrearTablaManual(e){
             $("#divResumenPedidoDetalle").empty();
             let text = '';
             var totalPrecio = 0;    
+            $("#key_id_pedido").val(e);
             $.get("listarPedidoDetalle/"+e,{},function(data){
                 console.log(data);
                     let cant = 1;
@@ -527,10 +539,14 @@ input[type=submit] {
                     text += '   </table>';
 
                     $("#divResumenPedidoDetalle").append(text);
-            },'json')
-        }
-     
+
+            },'json');
+            var div2 = document.getElementById('ConfirmarPedido');
+            div2.style.display = 'block';         
+    }
+    
     function CrearBotonesPedidos(){
+
         $("#targetList").empty();
         let text = '';
         
@@ -539,7 +555,14 @@ input[type=submit] {
                 text += '<button id="" onclick="return  CrearTablaManual('+data.data[i]['ped_int_id']+')" type="button" class="list-group-item list-group-item-action btnPed" value="'+data.data[i]['ped_int_id']+'">Pedido</button>';
             }
             $("#targetList").append(text);
-        },'json')
+        },'json');
+    }
+
+    function onCerrar(e){
+        let id = $("#key_id_pedido").val();    
+        $.get("cerrarPedido/"+id,{},function(data){
+            alert(data);
+        },'json');
     }
 </script>
 @stop
