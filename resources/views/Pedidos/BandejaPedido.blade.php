@@ -243,6 +243,8 @@ input[type=submit] {
                 PedidoDetalle = [];
             });
 
+            $('.alert').alert('close');
+
             CrearBotonesPedidos()
     });
     
@@ -289,11 +291,11 @@ input[type=submit] {
         };
         insertarDetalloPedido(parametros)
 
-            $('#pro_int_id').val(""),
-            $('#pedd_int_cantidad').val("1"),
-            $('#pedd_dbl_precio').val(""),
-            $('#pro_str_nombre').val(""),
-            $("#pro_str_nombre").attr("readonly", false);
+        $('#pro_int_id').val(""),
+        $('#pedd_int_cantidad').val("1"),
+        $('#pedd_dbl_precio').val(""),
+        $('#pro_str_nombre').val(""),
+        $("#pro_str_nombre").attr("readonly", false);
     }
 
     function autocomplete(inp, arr) {
