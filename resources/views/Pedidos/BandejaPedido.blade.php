@@ -84,11 +84,8 @@ input[type=submit] {
                     <div class="modal-content">
                         <div class="modal-body">
                             <div id="divContentProductoDetalle">    
-                                    <div id="alertbox" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+                                    <div id="alertbox" class="alert alert-warning fade show d-none" role="alert">
                                         <strong id="MensajeError"></strong>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
                                     </div>
                                     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
                                         <div class="row">
@@ -218,12 +215,12 @@ input[type=submit] {
             <div class="Container" id="div_sep">                 
                
                         <input id="key_id_pedido" hidden>     
-                        <div class="row">       
+                        <div id="detallePedido"  class="row">       
                                 <div class="col-md-3"></div>                              
-                                <div name="detallePedido" class="col-md-3" style="display:none">
+                                <div class="col-md-3">
                                     <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCancelarPedido" onClick="onCancelar(this)" >Cancelar Pedido</button>                              
                                 </div>
-                                <div name="detallePedido" class="col-md-3" style="display:none">                                 
+                                <div class="col-md-3">                                 
                                     <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
                                 </div>   
                                 <br />                                                                                                                                                   
@@ -259,7 +256,9 @@ input[type=submit] {
                 PedidoDetalle = [];
             });
 
-            CrearBotonesPedidos()
+            CrearBotonesPedidos();
+            var element = document.getElementById("detallePedido");
+            element.classList.add("d-none") 
     });
     
     function onClickNuevo (e){     
@@ -487,10 +486,13 @@ input[type=submit] {
     }
 
     function onConfirmar (){
-        debugger;
+        var element = document.getElementById("alertbox");        
+        element.classList.add("d-none"); 
+
         var Telefono = $('#ped_str_telefono_cliente').val();
         if(Telefono.length == 0 || Telefono.length < 0){
             $('.alert').alert();
+            element.classList.remove("d-none");
             $('#MensajeError').text("Debe ingresar un telefono para el pedido.");
             return;
         }
@@ -498,6 +500,7 @@ input[type=submit] {
         var Nombre = $('#ped_str_nombre_cliente').val();
         if(Nombre.length == 0 || Nombre.length < 0){
             $('.alert').alert();
+            element.classList.remove("d-none");
             $('#MensajeError').text("Debe ingresar un nombre para el pedido.");
             return;
         }
@@ -505,12 +508,14 @@ input[type=submit] {
         var Direccion = $('#ped_str_direccion_cliente').val();
         if(Direccion.length == 0 || Direccion.length < 0){
             $('.alert').alert();
+            element.classList.remove("d-none");
             $('#MensajeError').text("Debe ingresar una direccion para el pedido.");
             return;
         }
-        var rowCount = $('#tbPedDet tr').length;
+        var rowCount = $('#tableDetallePedido tr').length;
         if(rowCount == 0 || rowCount < 0){
             $('.alert').alert();
+            element.classList.remove("d-none");
             $('#MensajeError').text("Debe ingresar items del pedido.");
             return;
         }
@@ -588,9 +593,9 @@ input[type=submit] {
                     $("#divResumenPedidoDetalle").append(text);
 
             },'json');
-           // var div2 = document.getElementByName('detallePedido').elements;
-            //div2.style.display = 'block';    
-            $('detallePedido').attr('name');
+            //$( ".detallePedido" ).show();
+            var element = document.getElementById("detallePedido");
+            element.classList.remove("d-none");   
             $("#tbPedDet").css({"display": " table-cell", "width": "100%"});    
     }
     
