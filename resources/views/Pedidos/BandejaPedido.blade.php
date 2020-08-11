@@ -258,12 +258,13 @@ input[type=submit] {
                 PedidoDetalle = [];
             });
 
-            $('.alert').alert('close');
+            //$('.alert').alert('close');
 
             CrearBotonesPedidos()
     });
     
-    function onClickNuevo (e){            
+    function onClickNuevo (e){     
+            $('.alert').alert('close');       
             var postData = {
                             "text" :  $("#pro_str_nombre").val(),
                             "_token" : "{{ csrf_token() }}",
