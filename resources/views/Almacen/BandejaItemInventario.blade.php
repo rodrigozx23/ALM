@@ -70,8 +70,9 @@
                                         <label>Unidad Medida:</label>
                                         <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" >
                                             <option selected>Seleccione...</option>
-                                            <option value="1">Unidad</option>
-                                            <option value="2">Kilos</option>        
+                                            <option value="4">Unidad</option>
+                                            <option value="3">Gramos</option>  
+                                            <option value="2">Kilos</option>         
                                         </select>
                                     </div>  
                                      </div>

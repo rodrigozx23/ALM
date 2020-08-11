@@ -218,11 +218,12 @@ input[type=submit] {
             <div class="Container" id="div_sep">                 
                
                         <input id="key_id_pedido" hidden>     
-                        <div class="row">                                     
-                                <div class="col-md-9">
-                             
+                        <div class="row">       
+                                <div class="col-md-3"></div>                              
+                                <div name="detallePedido" class="col-md-3" style="display:none">
+                                    <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCancelarPedido" onClick="onCancelar(this)" >Cancelar Pedido</button>                              
                                 </div>
-                                <div id="ConfirmarPedido" class="col-md-3" style="display:none">                                 
+                                <div name="detallePedido" class="col-md-3" style="display:none">                                 
                                     <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
                                 </div>   
                                 <br />                                                                                                                                                   
@@ -257,8 +258,6 @@ input[type=submit] {
                 $("#divProductoDetalle").empty();
                 PedidoDetalle = [];
             });
-
-            //$('.alert').alert('close');
 
             CrearBotonesPedidos()
     });
@@ -480,7 +479,7 @@ input[type=submit] {
             textDetalle += '       <td>'+contador+'</td>';            
             textDetalle += '       <td>'+PedidoDetalle[i]['Descripcion']+'</td>';  
             textDetalle += '       <td>'+PedidoDetalle[i]['Cantidad']+'</td>';  
-            textDetalle += '       <td>'+PedidoDetalle[i]['Precio']+'</td>';  
+            textDetalle += '       <td>'+(PedidoDetalle[i]['Precio']).toFixed(2)+'</td>';  
             textDetalle += '   <tr>';    
             contador++; 
         }                                  
@@ -488,29 +487,62 @@ input[type=submit] {
     }
 
     function onConfirmar (){
-        var pedDet = PedidoDetalle;
-
         debugger;
+        var Telefono = $('#ped_str_telefono_cliente').val();
+        if(Telefono.length == 0 || Telefono.length < 0){
+            $('.alert').alert();
+            $('#MensajeError').text("Debe ingresar un telefono para el pedido.");
+            return;
+        }
 
-        const cliente = {
-            Telefono: $("#ped_str_telefono_cliente").val(),
-            Nombre: $('#ped_str_nombre_cliente').val(),
-            Direccion: $('#ped_str_direccion_cliente').val()
-        };
+        var Nombre = $('#ped_str_nombre_cliente').val();
+        if(Nombre.length == 0 || Nombre.length < 0){
+            $('.alert').alert();
+            $('#MensajeError').text("Debe ingresar un nombre para el pedido.");
+            return;
+        }
 
-        $.ajax({
-            type: 'POST',
-            url: 'guardarPedido'+'?_token=' + '{{ csrf_token() }}',
-            dataType: 'json',
-            data: JSON.stringify({'ped': pedDet, 'cli': cliente}),
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                $("#divProductoDetalle").empty();                  
-                $('#divProductoDetalleModal').modal('hide');
-                CrearBotonesPedidos();
-                PedidoDetalle = [];                
-            }
-        });   
+        var Direccion = $('#ped_str_direccion_cliente').val();
+        if(Direccion.length == 0 || Direccion.length < 0){
+            $('.alert').alert();
+            $('#MensajeError').text("Debe ingresar una direccion para el pedido.");
+            return;
+        }
+        var rowCount = $('#tbPedDet tr').length;
+        if(rowCount == 0 || rowCount < 0){
+            $('.alert').alert();
+            $('#MensajeError').text("Debe ingresar items del pedido.");
+            return;
+        }
+        alertify.confirm(' Confirmar:',"¿Desea crear el pedido?.",
+
+        function(){                    
+            var pedDet = PedidoDetalle;
+            const cliente = {
+                Telefono: $("#ped_str_telefono_cliente").val(),
+                Nombre: $('#ped_str_nombre_cliente').val(),
+                Direccion: $('#ped_str_direccion_cliente').val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: 'guardarPedido'+'?_token=' + '{{ csrf_token() }}',
+                dataType: 'json',
+                data: JSON.stringify({'ped': pedDet, 'cli': cliente}),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $("#divProductoDetalle").empty();                  
+                    $('#divProductoDetalleModal').modal('hide');
+                    CrearBotonesPedidos();
+                    PedidoDetalle = [];                
+                }
+            }); 
+            alertify.success('Creado');
+        },
+        function(){
+            alertify.error('Cancel');
+            return;
+        });
+          
     }
        
     function CrearTablaManual(e){
@@ -556,8 +588,9 @@ input[type=submit] {
                     $("#divResumenPedidoDetalle").append(text);
 
             },'json');
-            var div2 = document.getElementById('ConfirmarPedido');
-            div2.style.display = 'block';    
+           // var div2 = document.getElementByName('detallePedido').elements;
+            //div2.style.display = 'block';    
+            $('detallePedido').attr('name');
             $("#tbPedDet").css({"display": " table-cell", "width": "100%"});    
     }
     
@@ -575,10 +608,37 @@ input[type=submit] {
     }
 
     function onCerrar(e){
-        let id = $("#key_id_pedido").val();    
-        $.get("cerrarPedido/"+id,{},function(data){
-            alert(data);
-        },'json');
+        alertify.confirm(' Confirmar:',"¿Desea cerrar el pedido?.",
+        function(){
+           
+            let id = $("#key_id_pedido").val();    
+            $.get("cerrarPedido/"+id,{},function(data){
+                alert(data);
+                CrearBotonesPedidos();
+            },'json');
+            alertify.success('Hecho');
+        },
+        function(){
+            alertify.error('Cancel');
+            return;
+        });      
+    }
+
+    function onCancelar(e){
+        alertify.confirm(' Confirmar:',"¿Desea cancelar el pedido?.",
+        function(){
+           
+            let id = $("#key_id_pedido").val();    
+            $.get("cancelarPedido/"+id,{},function(data){
+                alert(data);
+                CrearBotonesPedidos();
+            },'json');
+            alertify.success('Hecho');
+        },
+        function(){
+            alertify.error('Cancel');
+            return;
+        });  
     }
 </script>
 @stop
