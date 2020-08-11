@@ -209,9 +209,9 @@ class PedidoController extends Controller
     public function listarPedidoDetalle($id)
     { 
 
-      $PedidoDetalle =  DB::select('select pd.*, p.pro_str_nombre from 
-      tb_pedidos_detalle pd inner join tb_productos p on pd.pro_int_id = p.pro_int_id 
-      where pedd_int_estado_detalle = 1 and ped_int_id = ?', [$id] );
+      $PedidoDetalle =  DB::select('select pd.*, p.pro_str_nombre, tp.ped_str_nombre_cliente, tp.ped_str_telefono_cliente, tp.ped_str_direccion_cliente from 
+      tb_pedidos_detalle pd inner join tb_productos p on pd.pro_int_id = p.pro_int_id inner join tb_pedidos tp on tp.ped_int_id = pd.ped_int_id 
+      where pedd_int_estado_detalle = 1 and pd.ped_int_id = ?', [$id] );
       
       return response()
             ->json(['draw' => 10,'recordsTotal' => 10,'recordsFiltered' => 10,'data' =>$PedidoDetalle]);

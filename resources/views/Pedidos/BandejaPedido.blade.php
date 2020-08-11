@@ -205,6 +205,8 @@ input[type=submit] {
                 </div>
         </div>
     </div>
+    <br/>
+    <br/>
     <div class="row" > 
         <div class="col-sm-2">                    
             <div id="targetList" class="list-group"></div>
@@ -212,26 +214,22 @@ input[type=submit] {
         <div class="col-sm-1">
         </div>
         <div class="col-sm-9">                   
-            <div class="Container" id="div_sep">                 
-               
-                        <input id="key_id_pedido" hidden>     
-                        <div id="detallePedido"  class="row">       
-                                <div class="col-md-3"></div>                              
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCancelarPedido" onClick="onCancelar(this)" >Cancelar Pedido</button>                              
-                                </div>
-                                <div class="col-md-3">                                 
-                                    <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
-                                </div>   
-                                <br />                                                                                                                                                   
-                        </div>
-                
-               
-                        <div class="row" id="div_sep">                                                            
-                                <br />  
-                                <div class="col-md-12" id="divResumenPedidoDetalle"></div>                                                                                 
-                        </div>
-                           
+            <div class="Container" id="div_sep">
+                <input id="key_id_pedido" hidden>
+                <div id="detallePedido"  class="row d-none">
+                    <div id="infoCliente" class="col-md-6">
+                    </div>
+                    <div class="col-md-3 my-auto">
+                        <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCancelarPedido" onClick="onCancelar(this)" >Cancelar Pedido</button>
+                    </div>
+                    <div class="col-md-3 my-auto">
+                        <button type="button" class="btn btn-primary align-left float-right btn-block" id="idCerrarPedido" onClick="onCerrar(this)" >Confirmar Pedido</button>
+                    </div>
+                    <br />
+                </div>
+                <div class="row" id="div_sep">
+                    <br />  
+                    <div class="col-md-12" id="divResumenPedidoDetalle"></div>
                 </div>
             </div>	
         </div>
@@ -243,6 +241,7 @@ input[type=submit] {
 @section('bandejajs')
 <script type="text/javascript">
     var _ITEMS_PRODUCTO;
+
     $(document).ready(function() {
 
              $('#divProductoDetalleModal').on('shown.bs.modal', function () {
@@ -552,7 +551,11 @@ input[type=submit] {
        
     function CrearTablaManual(e){
             $("#divResumenPedidoDetalle").empty();
+            
+            //$("#infoCliente").empty();
+
             let text = '';
+            let textCliente = '';
             var totalPrecio = 0;    
             $("#key_id_pedido").val(e);
             $.get("listarPedidoDetalle/"+e,{},function(data){
@@ -590,7 +593,29 @@ input[type=submit] {
                     text += '   </tfoot>';
                     text += '   </table>';
 
+                    $("#divResumenPedidoDetalle").empty();
                     $("#divResumenPedidoDetalle").append(text);
+
+                    textCliente += '<div class="row">';
+                    textCliente += '<div class="col-md-6">';
+                    textCliente += '<label>Telefono:</label>';
+                    textCliente += '<input type="text" class="form-control" disabled name="ped_str_telefono_cliente" id="ped_str_telefono_cliente" value="' + data.data[0]['ped_str_telefono_cliente'] + '">';
+                    textCliente += '</div>';
+                    textCliente += '<div class="col-md-6">';
+                    textCliente += '<label>Nombre:</label>';
+                    textCliente += '<input type="text" class="form-control" disabled name="ped_str_nombre_cliente" id="ped_str_nombre_cliente" value="' + data.data[0]['ped_str_nombre_cliente'] + '">';
+                    textCliente += '</div>';
+                    textCliente += '</div>';
+                    textCliente += '<br>';
+                    textCliente += '<div class="row">';
+                    textCliente += '<div class="col-md-12">';
+                    textCliente += '<label>Direccion:</label>';
+                    textCliente += '<input type="text" class="form-control" disabled name="ped_str_direccion_cliente" id="ped_str_direccion_cliente" value="' + data.data[0]['ped_str_direccion_cliente'] + '">';
+                    textCliente += '</div>';
+                    textCliente += '</div>';
+
+                    $("#infoCliente").empty();
+                    $("#infoCliente").append(textCliente);
 
             },'json');
             //$( ".detallePedido" ).show();

@@ -197,9 +197,9 @@ input[type=submit] {
                                         <label>Unidad Medida:</label>
                                         <select class="custom-select my-1 mr-sm-2" name="prod_int_tipo_medida_salida">
                                             <option selected>Seleccione...</option>
-                                            <option value="6">Unidad</option>
-                                            <option value="7">Gramos</option>  
-                                            <option value="8">Kilos</option> >        
+                                            <option value="2">Unidad</option>
+                                            <option value="3">Gramos</option>  
+                                            <option value="4">Kilos</option> >        
                                         </select>
                                     </div>
                                     <div class="form-group">

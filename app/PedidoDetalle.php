@@ -24,6 +24,9 @@ class PedidoDetalle extends Model
         'pedd_str_usuario_creacion',
         'pedd_dat_fecha_creacion',
         'pedd_str_usuario_modificacion',
-        'pedd_dat_fecha_modificacion'
+        'pedd_dat_fecha_modificacion',
+        'ped_str_telefono_cliente',
+        'ped_str_nombre_cliente',
+        'ped_str_direccion_cliente'
     ];
 }
