@@ -244,4 +244,29 @@ class PedidoController extends Controller
             ->json(['data' =>$insertedId], 200);
 
     }
+
+          /**
+     * Store a new Item. Debe devolver una vista
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function cancelPedido($id)
+    {   
+        $mytime =Carbon::now();     
+        $PedidoInsert = new ped;             
+        //ID
+        $insertedId = $id;  
+        $Pedido = new ped;
+        // MONTOS
+        $Pedido->ped_int_estado_pedido = 4; //VENDIDO    
+        // AUDITORIA                     
+        $Pedido->ped_str_fecha_modificacion = $mytime; 
+        $Pedido->ped_str_usuario_modificacion =  "Admin";
+
+        $this->pedidoObject->update($insertedId, $Pedido->toArray());          
+        return response()
+            ->json(['data' =>$insertedId], 200);
+
+    }
 }

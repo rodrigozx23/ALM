@@ -65,6 +65,8 @@ Route::get('listarPedidos', 'PedidoController@listarPedidos');
 
 Route::get('cerrarPedido/{id}', 'PedidoController@sellPedido');
 
+Route::get('cancelarPedido/{id}', 'PedidoController@cancelPedido');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
