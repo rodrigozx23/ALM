@@ -84,7 +84,7 @@ input[type=submit] {
                     <div class="modal-content">
                         <div class="modal-body">
                             <div id="divContentProductoDetalle">    
-                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <div id="alertbox" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
                                         <strong id="MensajeError"></strong>
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -264,7 +264,6 @@ input[type=submit] {
     });
     
     function onClickNuevo (e){     
-            $('.alert').alert('close');       
             var postData = {
                             "text" :  $("#pro_str_nombre").val(),
                             "_token" : "{{ csrf_token() }}",
@@ -283,17 +282,22 @@ input[type=submit] {
                     } 
                 );                
             autocomplete(document.getElementById("pro_str_nombre"), Productositems);       
-            $('#divProductoDetalleModal').modal("show");         
+            $('#divProductoDetalleModal').modal("show");
            // ("#tbproducto > tr").remove();
     }
 
     function onAddPedidoDetalle(e){
+        var element = document.getElementById("alertbox");
+        
+        element.classList.add("d-none"); 
+
         var pedidoid =  $('#ped_int_id').val();
         // CREAR EL PEDIDO CAB,
         // RETORNE SU ID -> PARA VALIDAR LAS MODAS
         var pro_id = $('#pro_int_id').val();
         if(pro_id.length == 0 || pro_id.length < 0){
             $('.alert').alert();
+            element.classList.remove("d-none");
             $('#MensajeError').text("Debe Seleccionar un producto.");
             return;
         }
@@ -468,7 +472,7 @@ input[type=submit] {
 
         let textDetalle = '';
       
-         $("#divProductoDetalle").empty();
+        $("#divProductoDetalle").empty();
 
         var contador = 1;
         for(var i = 0; i < PedidoDetalle.length; i++){   
