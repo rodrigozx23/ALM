@@ -188,30 +188,40 @@ input[type=submit] {
                                 <form action="{{url('/guardarProductoDetalle')}}" method="post"> 
                                     @csrf
                                     <input class="form-control" name="pro_int_id" id="pro_id" hidden>
+                                    
                                     <input class="form-control" name="invi_int_id" id="invi_int_id" hidden>
-                                    <div class="form-group autocomplete">                                    
-                                        <label for="prod_str_nombre" >Nombre:</label>
-                                        <input class="form-control" name="prod_str_nombre" id="prod_str_nombre" autocomplete="off">
-                                    </div>                                  
-                                    <div class="form-group"> 
-                                        <label>Unidad Medida:</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="prod_int_tipo_medida_salida">
-                                            <option selected>Seleccione...</option>
-                                            <option value="2">Unidad</option>
-                                            <option value="3">Gramos</option>  
-                                            <option value="4">Kilos</option> >        
-                                        </select>
+
+                                    <div class="row">
+                                        <div class="col-md-6 form-group autocomplete">                                    
+                                            <label for="prod_str_nombre" >Nombre:</label>
+                                            <input class="form-control" name="prod_str_nombre" id="prod_str_nombre" autocomplete="off">
+                                        </div>    
+                                        <div class="col-md-6"> 
+                                            <label>Unidad Medida:</label>
+                                            <select class="custom-select my-1 mr-sm-2" name="prod_int_tipo_medida_salida">
+                                                <option selected>Seleccione...</option>
+                                                <option value="4">Unidad</option>
+                                                <option value="3">Gramos</option>  
+                                                <option value="2">Kilos</option> >        
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Cantidad:</label>
-                                        <input type="text" class="form-control" name="prod_dbl_cantidad_item"  >
+                                    <div class="row">
+
+                                        <div class="form-group col-md-6">
+                                            <label>Cantidad:</label>
+                                            <input type="text" class="form-control" name="prod_dbl_cantidad_item">
+                                        </div>                                        
+                                        <div class="form-group col-md-6">
+                                            <label>Costo Produccion:</label>
+                                            <input type="text" class="form-control" name="prod_dbl_costo_produccion_item">
+                                        </div>
+
                                     </div>
-                                    <div class="form-group">
-                                        <label>Costo Produccion:</label>
-                                        <input type="text" class="form-control" name="prod_dbl_costo_produccion_item"  >
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Agregar</button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>                             
+                          
+                                    <button type="submit" class="btn btn-primary">Agregar</button>                                                                                                     
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>   
+                                                                 
                                 </form>
                             </div>  
                         </div>
