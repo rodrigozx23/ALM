@@ -60,21 +60,21 @@
                         <div id="divContentItemIInventario">
                         <div>
                                 <div id="alertboxInsert" class="alert alert-warning fade show d-none" role="alert">
-                                        <strong id="MensajeError"></strong>
+                                        <strong id="MensajeErrorIns"></strong>
                                 </div>
                                 <form action="{{url('/guardarItem')}}" method="post"> 
                                 @csrf
                                     <div class="row">
                                             <div class="col-md-12">                                    
                                                 <label>Nombre:</label>
-                                                <input type="text" class="form-control" name="invi_str_nombre">
+                                                <input type="text" class="form-control" name="invi_str_nombre" id="invi_str_nombre">
                                             </div>
                                     </div>
                                     <div class="row">
                                             <div class="col-md-12" >
                                                 <label>Unidad Medida:</label>
-                                                <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" >
-                                                    <option selected>Seleccione...</option>
+                                                <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" id="itm_int_tipo_medida_entrada" >
+                                                    <option value="0" selected>Seleccione...</option>
                                                     <option value="4">Unidad</option>
                                                     <option value="3">Gramos</option>  
                                                     <option value="2">Kilos</option>         
@@ -95,7 +95,7 @@
                                             <button onClick="onSalir(this)"  type="button" class="btn btn-primary btn-block">Cerrar</button>
                                         </div>
                                         <div class="col-md-4">
-                                            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                                            <button type="submit" onClick="return onInsertarItem(this)" class="btn btn-primary btn-block">Guardar</button>
                                         </div>
                                     </div>                                                                   
                                 </form>
@@ -111,13 +111,15 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div id="divContentItemUInventario">
-                        <div>
-                                <div id="alertboxUpdate" class="alert alert-warning fade show d-none" role="alert">
-                                        <strong id="MensajeError"></strong>
-                                </div>
+                        <div>                                                           
                                 <form action="{{url('/editarItem')}}" method="post"> 
                                 @csrf
                                     <div class="row">
+                                    <div class="col-md-12">    
+                                        <div id="alertboxUpdate" class="alert alert-warning fade show d-none" role="alert">
+                                            <strong id="MensajeErrorUpdate"></strong>
+                                        </div>        
+                                    </div>
                                     <input  class="form-control" name="invi_int_id" id="Uinvi_int_id" hidden>
                                         <div class="col-md-12">                                    
                                             <label>Nombre:</label>
@@ -126,7 +128,7 @@
                                         <div class="col-md-12" >
                                             <label>Unidad Medida:</label>
                                             <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" id="Uitm_int_tipo_medida_entrada">
-                                                <option selected>Seleccione...</option>
+                                                <option value="0" selected>Seleccione...</option>
                                                 <option value="4">Unidad</option>
                                                 <option value="3">Gramos</option>  
                                                 <option value="2">Kilos</option>        
@@ -145,7 +147,7 @@
                                             <button onClick="onSalir(this)"  type="button" class="btn btn-primary btn-block">Cerrar</button>
                                         </div>
                                         <div class="col-md-4">
-                                            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                                            <button type="submit" onClick="return onActualizarItem(this)" class="btn btn-primary btn-block">Guardar</button>
                                         </div>
                                     </div>                                                                        
                                 </form>
@@ -194,16 +196,25 @@
               });
               
             $('#divItemInventarioIModal').on('shown.bs.modal', function () {
+                    
             });
 
             $('#divItemInventarioIModal').on('hidden.bs.modal', function (e) {
+                var element = document.getElementById("alertboxInsert");        
+                element.classList.add("d-none"); 
+                $('#MensajeErrorIns').text("");
+                $('#invi_str_nombre').val("");   
+                $('#itm_int_tipo_medida_entrada').val(0);   
+                $('#invi_dbl_cantidad').val("");  
             });
 
             $('#divItemInventarioUModal').on('shown.bs.modal', function () {
             });
 
             $('#divItemInventarioUModal').on('hidden.bs.modal', function (e) {
-
+                var element = document.getElementById("alertboxUpdate");        
+                element.classList.add("d-none"); 
+                $('#MensajeErrorUpdate').text("");
             });
         });
 
@@ -237,6 +248,67 @@
             } );         
             $('#divItemInventarioUModal').modal("show");
         }
-        
+
+        function onActualizarItem(e){
+
+            var element = document.getElementById("alertboxUpdate");        
+            element.classList.add("d-none"); 
+            $('#MensajeErrorUpdate').text("");
+
+            var nombre = $('#Uinvi_str_nombre').val();
+            if(nombre == null || nombre == ""){
+                $('.alert').alert();
+                element.classList.remove("d-none");
+                $('#MensajeErrorUpdate').text("Debe ingresar una Descripcion.");
+                return false;
+            }
+
+            var id_medida = $('#Uitm_int_tipo_medida_entrada').val();
+            if(id_medida == 0){
+                $('.alert').alert();
+                element.classList.remove("d-none");
+                $('#MensajeErrorUpdate').text("Debe seleccionar una Unidad Medida.");
+                return false;
+            }
+
+            var cantidad = $('#Uinvi_dbl_cantidad').val();
+            if(cantidad  == null || cantidad == "" || cantidad == 0){
+                $('.alert').alert();
+                element.classList.remove("d-none");
+                $('#MensajeErrorUpdate').text("Debe ingresar una cantidad.");
+                return false;
+            } 
+    
+        }
+
+        function onInsertarItem(e){
+            var element = document.getElementById("alertboxInsert");        
+            element.classList.add("d-none"); 
+            $('#MensajeErrorIns').text("");
+
+            var nombre = $('#invi_str_nombre').val();        
+            if(nombre == null || nombre == ""){
+                $('.alert').alert();
+                element.classList.remove("d-none");
+                $('#MensajeErrorIns').text("Debe ingresar una Descripcion.");
+                return false;
+            }
+
+            var id_medida = $('#itm_int_tipo_medida_entrada').val();
+            if(id_medida == 0){
+                $('.alert').alert();
+                element.classList.remove("d-none");
+                $('#MensajeErrorIns').text("Debe seleccionar una Unidad Medida.");
+                return false;
+            }                 
+
+            var cantidad = $('#invi_dbl_cantidad').val();
+            if(cantidad  == null || cantidad == "" || cantidad == 0){
+                $('.alert').alert();
+                element.classList.remove("d-none");
+                $('#MensajeErrorIns').text("Debe ingresar un Valor de Entrada.");
+                return false;
+            }     
+        }
     </script>
 @stop

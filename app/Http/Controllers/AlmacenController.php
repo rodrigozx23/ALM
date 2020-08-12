@@ -110,8 +110,7 @@ class AlmacenController extends Controller
         }
         $item_inventarioUpdate->invi_int_estado_item = 1;
         $this->iteminventarioObject->update($id_item_inventario, $item_inventarioUpdate->toArray());         
-      //$item_inventario->save();
-      //return response()->json($item_inventario);
+
       return redirect('/Almacen');
     }
     
@@ -143,13 +142,9 @@ class AlmacenController extends Controller
           $item_inventarioInsert->invi_dbl_peso_neto = 0;
           $item_inventarioInsert->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad');
         }
-
-        //$item_inventarioInsert->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad_total_item');
-        //$item_inventarioInsert->invi_dbl_peso_neto = $request->input('invi_dbl_peso_neto');
         $item_inventarioInsert->invi_int_estado_item = 1;
         $this->iteminventarioObject->create($item_inventarioInsert->toArray());       
-      //$item_inventario->save();
-      //return response()->json($item_inventario);
+
       return redirect('/Almacen');
     }
 
