@@ -237,7 +237,7 @@ class AlmacenController extends Controller
         $mytime =Carbon::now();      
         
         $ProductoDetalleInsert = new prod;  
-        $ProductoDetalleInsert->invi_int_id = 1;
+        $ProductoDetalleInsert->invi_int_id = $request->input('invi_int_id');
         $ProductoDetalleInsert->pro_int_id = $request->input('pro_int_id');
         $ProductoDetalleInsert->prod_str_nombre = $request->input('prod_str_nombre');
         $ProductoDetalleInsert->prod_bit_estado = 1;

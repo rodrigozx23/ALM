@@ -54,7 +54,7 @@
         </div>
 
         <div class="modal fade" id="divItemInventarioIModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div id="divContentItemIInventario">
@@ -62,38 +62,37 @@
                                 <form action="{{url('/guardarItem')}}" method="post"> 
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6">                                    
-                                        <label>Nombre:</label>
-                                        <input type="text" class="form-control" name="invi_str_nombre">
-                                    </div>
-                                    <div class="col-md-6" >
-                                        <label>Unidad Medida:</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" >
-                                            <option selected>Seleccione...</option>
-                                            <option value="4">Unidad</option>
-                                            <option value="3">Gramos</option>  
-                                            <option value="2">Kilos</option>         
-                                        </select>
-                                    </div>  
-                                     </div>
-                                     <div class="row">
-                                    <div class="col-md-6"> 
-                                        <label>Cantidad:</label>
-                                        <input type="text" class="form-control" name="invi_dbl_cantidad_total_item">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Peso:</label>
-                                        <input type="text" class="form-control" name="invi_dbl_peso_neto"  >
-                                    </div>
+                                        <div class="col-md-12">                                    
+                                            <label>Nombre:</label>
+                                            <input type="text" class="form-control" name="invi_str_nombre">
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-md-12" >
+                                            <label>Unidad Medida:</label>
+                                            <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" >
+                                                <option selected>Seleccione...</option>
+                                                <option value="4">Unidad</option>
+                                                <option value="3">Gramos</option>  
+                                                <option value="2">Kilos</option>         
+                                            </select>
+                                        </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12"> 
+                                                <label>Valor Entrante:</label>
+                                                <input type="text" class="form-control" name="invi_dbl_cantidad" id="Uinvi_dbl_cantidad">
+                                            </div>   
+                                        </div> 
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-md-4">
                                         </div>                                                                             
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <button onClick="onSalir(this)"  type="button" class="btn btn-primary btn-block">Cerrar</button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
                                         </div>
                                     </div>                                                                   
@@ -115,11 +114,11 @@
                                 @csrf
                                     <div class="row">
                                     <input  class="form-control" name="invi_int_id" id="Uinvi_int_id" hidden>
-                                        <div class="col-md-6">                                    
+                                        <div class="col-md-12">                                    
                                             <label>Nombre:</label>
                                             <input type="text" class="form-control" name="invi_str_nombre" id="Uinvi_str_nombre">
                                         </div>
-                                        <div class="col-md-6" >
+                                        <div class="col-md-12" >
                                             <label>Unidad Medida:</label>
                                             <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" id="Uitm_int_tipo_medida_entrada">
                                                 <option selected>Seleccione...</option>
@@ -128,15 +127,9 @@
                                                 <option value="2">Kilos</option>        
                                             </select>
                                         </div>   
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6"> 
-                                            <label>Cantidad:</label>
-                                            <input type="text" class="form-control" name="invi_dbl_cantidad_total_item" id="Uinvi_dbl_cantidad_total_item">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Peso:</label>
-                                            <input type="text" class="form-control" name="invi_dbl_peso_neto" id="Uinvi_dbl_peso_neto" >
+                                        <div class="col-md-12"> 
+                                            <label>Valor Entrante:</label>
+                                            <input type="text" class="form-control" name="invi_dbl_cantidad" id="Uinvi_dbl_cantidad">
                                         </div>                                   
                                     </div>
                                     <br>
