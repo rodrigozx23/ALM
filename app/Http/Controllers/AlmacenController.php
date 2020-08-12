@@ -100,8 +100,14 @@ class AlmacenController extends Controller
         $item_inventarioUpdate->invi_dat_fecha_modificacion = $mytime;
         $item_inventarioUpdate->invi_str_usuario_modificacion =  "Admin";
         $item_inventarioUpdate->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');    
-        $item_inventarioUpdate->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad_total_item');
-        $item_inventarioUpdate->invi_dbl_peso_neto = $request->input('invi_dbl_peso_neto');
+        $Umedida = $request->input('itm_int_tipo_medida_entrada');
+        if($Umedida == "2" && $Umedida == "3"){
+          $item_inventarioUpdate->invi_dbl_peso_neto = $request->input('invi_dbl_cantidad');
+          $item_inventarioUpdate->invi_dbl_cantidad_total_item = 0;
+        }else{
+          $item_inventarioUpdate->invi_dbl_peso_neto = 0;
+          $item_inventarioUpdate->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad');
+        }
         $item_inventarioUpdate->invi_int_estado_item = 1;
         $this->iteminventarioObject->update($id_item_inventario, $item_inventarioUpdate->toArray());         
       //$item_inventario->save();
@@ -128,9 +134,18 @@ class AlmacenController extends Controller
         $item_inventarioInsert->invi_dat_fecha_modificacion = $mytime;
         $item_inventarioInsert->invi_str_usuario_creacion = "Admin";
         $item_inventarioInsert->invi_str_usuario_modificacion =  "Admin";
-        $item_inventarioInsert->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');    
-        $item_inventarioInsert->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad_total_item');
-        $item_inventarioInsert->invi_dbl_peso_neto = $request->input('invi_dbl_peso_neto');
+        $item_inventarioInsert->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');  
+        $Umedida = $request->input('itm_int_tipo_medida_entrada');
+        if($Umedida == "2" && $Umedida == "3"){
+          $item_inventarioInsert->invi_dbl_peso_neto = $request->input('invi_dbl_cantidad');
+          $item_inventarioInsert->invi_dbl_cantidad_total_item = 0;
+        }else{
+          $item_inventarioInsert->invi_dbl_peso_neto = 0;
+          $item_inventarioInsert->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad');
+        }
+
+        //$item_inventarioInsert->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad_total_item');
+        //$item_inventarioInsert->invi_dbl_peso_neto = $request->input('invi_dbl_peso_neto');
         $item_inventarioInsert->invi_int_estado_item = 1;
         $this->iteminventarioObject->create($item_inventarioInsert->toArray());       
       //$item_inventario->save();

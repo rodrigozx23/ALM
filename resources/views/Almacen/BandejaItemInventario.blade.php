@@ -59,32 +59,34 @@
                     <div class="modal-body">
                         <div id="divContentItemIInventario">
                         <div>
+                                <div id="alertboxInsert" class="alert alert-warning fade show d-none" role="alert">
+                                        <strong id="MensajeError"></strong>
+                                </div>
                                 <form action="{{url('/guardarItem')}}" method="post"> 
                                 @csrf
-                                <div class="row">
-                                        <div class="col-md-12">                                    
-                                            <label>Nombre:</label>
-                                            <input type="text" class="form-control" name="invi_str_nombre">
-                                        </div>
-                                        </div>
-                                        <div class="row">
-                                        <div class="col-md-12" >
-                                            <label>Unidad Medida:</label>
-                                            <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" >
-                                                <option selected>Seleccione...</option>
-                                                <option value="4">Unidad</option>
-                                                <option value="3">Gramos</option>  
-                                                <option value="2">Kilos</option>         
-                                            </select>
-                                        </div>  
-                                        </div>
-                                        <div class="row">
+                                    <div class="row">
+                                            <div class="col-md-12">                                    
+                                                <label>Nombre:</label>
+                                                <input type="text" class="form-control" name="invi_str_nombre">
+                                            </div>
+                                    </div>
+                                    <div class="row">
+                                            <div class="col-md-12" >
+                                                <label>Unidad Medida:</label>
+                                                <select class="custom-select my-1 mr-sm-2" name="itm_int_tipo_medida_entrada" >
+                                                    <option selected>Seleccione...</option>
+                                                    <option value="4">Unidad</option>
+                                                    <option value="3">Gramos</option>  
+                                                    <option value="2">Kilos</option>         
+                                                </select>
+                                            </div>  
+                                    </div>
+                                    <div class="row">
                                             <div class="col-md-12"> 
                                                 <label>Valor Entrante:</label>
-                                                <input type="text" class="form-control" name="invi_dbl_cantidad" id="Uinvi_dbl_cantidad">
+                                                <input type="text" class="form-control" name="invi_dbl_cantidad" id="invi_dbl_cantidad">
                                             </div>   
-                                        </div> 
-                                    </div>
+                                    </div> 
                                     <br>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -105,11 +107,14 @@
         </div>
 
         <div class="modal fade" id="divItemInventarioUModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-md" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
                         <div id="divContentItemUInventario">
                         <div>
+                                <div id="alertboxUpdate" class="alert alert-warning fade show d-none" role="alert">
+                                        <strong id="MensajeError"></strong>
+                                </div>
                                 <form action="{{url('/editarItem')}}" method="post"> 
                                 @csrf
                                     <div class="row">
@@ -134,12 +139,12 @@
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-md-4">
                                         </div>                                                                             
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <button onClick="onSalir(this)"  type="button" class="btn btn-primary btn-block">Cerrar</button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
                                         </div>
                                     </div>                                                                        
@@ -218,8 +223,16 @@
             var rowData = table.row( this ).data();
                 $("#Uinvi_int_id").val(rowData.invi_int_id);
                 $("#Uinvi_str_nombre").val(rowData.invi_str_nombre);
-                $("#Uinvi_dbl_cantidad_total_item").val(rowData.invi_dbl_cantidad_total_item);
-                $("#Uinvi_dbl_peso_neto").val(rowData.invi_dbl_peso_neto);
+                console.log(rowData.invi_dbl_peso_neto);
+                console.log(rowData.invi_dbl_cantidad_total_item);
+                if(rowData.itm_int_tipo_medida_entrada == "2" && rowData.itm_int_tipo_medida_entrada == "3" ){                  
+                    $("#Uinvi_dbl_cantidad").val(rowData.invi_dbl_peso_neto);
+                }else{
+                    $("#Uinvi_dbl_cantidad").val(rowData.invi_dbl_cantidad_total_item);
+                }
+              
+          
+                
                 $("#Uitm_int_tipo_medida_entrada").val(rowData.itm_int_tipo_medida_entrada);
             } );         
             $('#divItemInventarioUModal').modal("show");
