@@ -236,9 +236,11 @@
                 $("#Uinvi_str_nombre").val(rowData.invi_str_nombre);
                 console.log(rowData.invi_dbl_peso_neto);
                 console.log(rowData.invi_dbl_cantidad_total_item);
-                if(rowData.itm_int_tipo_medida_entrada == "2" && rowData.itm_int_tipo_medida_entrada == "3" ){                  
+                if(rowData.itm_int_tipo_medida_entrada == 2 || rowData.itm_int_tipo_medida_entrada == 3 ){       
+               
                     $("#Uinvi_dbl_cantidad").val(rowData.invi_dbl_peso_neto);
                 }else{
+              
                     $("#Uinvi_dbl_cantidad").val(rowData.invi_dbl_cantidad_total_item);
                 }
               
