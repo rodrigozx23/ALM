@@ -71,10 +71,20 @@ class AlmacenController extends Controller
       $item_inventario->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');
 
       $item_inventario->inv_int_id = $request->input('inv_int_id');
-      $item_inventario->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad_total_item');
+      //$item_inventario->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad_total_item');
       $item_inventario->invi_str_estado_item = $request->input('invi_str_estado_item');
       $item_inventario->invi_int_estado_item = $request->input('invi_int_estado_item');
-      $item_inventario->invi_dbl_peso_neto = $request->input('invi_dbl_peso_neto');
+      //$item_inventario->invi_dbl_peso_neto = $request->input('invi_dbl_peso_neto');
+
+      $Umedida = $request->input('itm_int_tipo_medida_entrada');
+      //dd($Umedida);
+      if($Umedida == "2" || $Umedida == "3"){
+        $item_inventarioUpdate->invi_dbl_peso_neto = $request->input('invi_dbl_cantidad');
+        $item_inventarioUpdate->invi_dbl_cantidad_total_item = 0;
+      }else{
+        $item_inventarioUpdate->invi_dbl_peso_neto = 0;
+        $item_inventarioUpdate->invi_dbl_cantidad_total_item = $request->input('invi_dbl_cantidad');
+      }
       //echo($item_inventario);
       $this->iteminventarioObject->create($item_inventario->toArray());
       //$item_inventario->save();
@@ -101,7 +111,8 @@ class AlmacenController extends Controller
         $item_inventarioUpdate->invi_str_usuario_modificacion =  "Admin";
         $item_inventarioUpdate->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');    
         $Umedida = $request->input('itm_int_tipo_medida_entrada');
-        if($Umedida == "2" && $Umedida == "3"){
+        //dd($Umedida);
+        if($Umedida == "2" || $Umedida == "3"){
           $item_inventarioUpdate->invi_dbl_peso_neto = $request->input('invi_dbl_cantidad');
           $item_inventarioUpdate->invi_dbl_cantidad_total_item = 0;
         }else{
