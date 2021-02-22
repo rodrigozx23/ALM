@@ -59,15 +59,15 @@ class AlmacenController extends Controller
     {
       $item_inventario = new invi;
       $mytime =Carbon::now();
-
+      $user = Auth::user();
       $item_inventario->invi_str_nombre = $request->input('invi_str_nombre');
       $item_inventario->invi_bit_estado = $request->input('invi_bit_estado');
       //$item_inventario->invi_dat_fecha_creacion = $mytime->format('d-m-Y H:i:s');
       //$item_inventario->invi_dat_fecha_modificacion = $mytime->format('d-m-Y H:i:s');
       $item_inventario->invi_dat_fecha_creacion = $mytime;
       $item_inventario->invi_dat_fecha_modificacion = $mytime;
-      $item_inventario->invi_str_usuario_creacion =  $request->input('invi_str_usuario_creacion');
-      $item_inventario->invi_str_usuario_modificacion = $request->input('invi_str_usuario_modificacion');
+      $item_inventario->invi_str_usuario_creacion =  $user->name;
+      $item_inventario->invi_str_usuario_modificacion = $user->name;
       $item_inventario->invi_str_tipo_medida_entrada = $request->input('invi_str_tipo_medida_entrada');
       $item_inventario->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');
 
@@ -102,14 +102,14 @@ class AlmacenController extends Controller
     {
         $item_inventario = new invi;
         $mytime =Carbon::now();
-
+        $user = Auth::user();
         $id_item_inventario = $request->input('invi_int_id');
         $item_inventarioUpdate = new invi;  
         $item_inventarioUpdate->invi_str_nombre = $request->input('invi_str_nombre');
         $item_inventarioUpdate->invi_bit_estado = 1;
         $item_inventarioUpdate->inv_int_id = 1;
         $item_inventarioUpdate->invi_dat_fecha_modificacion = $mytime;
-        $item_inventarioUpdate->invi_str_usuario_modificacion =  "Admin";
+        $item_inventarioUpdate->invi_str_usuario_modificacion = $user->name;
         $item_inventarioUpdate->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');    
         $Umedida = $request->input('itm_int_tipo_medida_entrada');
         //dd($Umedida);
@@ -136,15 +136,15 @@ class AlmacenController extends Controller
     {
         $item_inventario = new invi;
         $mytime =Carbon::now();      
-        
+        $user = Auth::user();
         $item_inventarioInsert = new invi;  
         $item_inventarioInsert->invi_str_nombre = $request->input('invi_str_nombre');
         $item_inventarioInsert->invi_bit_estado = 1;
         $item_inventarioInsert->inv_int_id = 1;
         $item_inventarioInsert->invi_dat_fecha_creacion = $mytime;
         $item_inventarioInsert->invi_dat_fecha_modificacion = $mytime;
-        $item_inventarioInsert->invi_str_usuario_creacion = "Admin";
-        $item_inventarioInsert->invi_str_usuario_modificacion =  "Admin";
+        $item_inventarioInsert->invi_str_usuario_creacion = $user->name;
+        $item_inventarioInsert->invi_str_usuario_modificacion =  $user->name;
         $item_inventarioInsert->itm_int_tipo_medida_entrada = $request->input('itm_int_tipo_medida_entrada');  
         $Umedida = $request->input('itm_int_tipo_medida_entrada');
         if($Umedida == "2" && $Umedida == "3"){
@@ -205,15 +205,15 @@ class AlmacenController extends Controller
     {
         $Producto = new pro;
         $mytime =Carbon::now();      
-        
+        $user = Auth::user();
         $ProductoInsert = new pro;  
 
         $ProductoInsert->pro_str_nombre = $request->input('pro_str_nombre');
         $ProductoInsert->pro_bit_estado = 1;
         $ProductoInsert->pro_dat_fecha_creacion = $mytime;
         $ProductoInsert->pro_dat_fecha_modificacion = $mytime;
-        $ProductoInsert->pro_str_usuario_creacion = "Admin";
-        $ProductoInsert->pro_str_usuario_modificacion =  "Admin";
+        $ProductoInsert->pro_str_usuario_creacion = $user->name;
+        $ProductoInsert->pro_str_usuario_modificacion =  $user->name;
         $ProductoInsert->pro_dbl_precio_venta = $request->input('pro_dbl_precio_venta');    
         $ProductoInsert->pro_dbl_costo_produccion = $request->input('pro_dbl_costo_produccion');
 
@@ -232,13 +232,13 @@ class AlmacenController extends Controller
     {
         $Producto= new pro;
         $mytime =Carbon::now();
-
+        $user = Auth::user();
         $id_Producto = $request->input('pro_int_id');
         $ProductoUpdate = new pro;  
         $ProductoUpdate->pro_str_nombre = $request->input('pro_str_nombre');
         $ProductoUpdate->pro_bit_estado = 1;
         $ProductoUpdate->pro_dat_fecha_modificacion = $mytime;
-        $ProductoUpdate->pro_str_usuario_modificacion =  "Admin";
+        $ProductoUpdate->pro_str_usuario_modificacion =  $user->name;
         $ProductoUpdate->pro_dbl_precio_venta = $request->input('pro_dbl_precio_venta');    
         $ProductoUpdate->pro_dbl_costo_produccion = $request->input('pro_dbl_costo_produccion');
 
@@ -257,7 +257,7 @@ class AlmacenController extends Controller
     {
         $ProductoDetalle = new prod;
         $mytime =Carbon::now();      
-        
+        $user = Auth::user();
         $ProductoDetalleInsert = new prod;  
         $ProductoDetalleInsert->invi_int_id = $request->input('invi_int_id');
         $ProductoDetalleInsert->pro_int_id = $request->input('pro_int_id');
@@ -266,8 +266,8 @@ class AlmacenController extends Controller
         $ProductoDetalleInsert->prod_int_item = 1;
         $ProductoDetalleInsert->prod_dat_usuario_creacion = $mytime;
         $ProductoDetalleInsert->prod_dat_usuario_modificacion = $mytime;
-        $ProductoDetalleInsert->prod_str_usuario_creacion = "Admin";
-        $ProductoDetalleInsert->prod_str_usuario_modificacion =  "Admin";
+        $ProductoDetalleInsert->prod_str_usuario_creacion =  $user->name;
+        $ProductoDetalleInsert->prod_str_usuario_modificacion =  $user->name;
         $ProductoDetalleInsert->prod_dbl_costo_produccion_item = $request->input('prod_dbl_costo_produccion_item');    
         $ProductoDetalleInsert->prod_dbl_cantidad_item = $request->input('prod_dbl_cantidad_item');
         $ProductoDetalleInsert->prod_str_tipo_medida_salida = " ";
