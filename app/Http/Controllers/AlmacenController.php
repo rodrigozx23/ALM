@@ -13,6 +13,7 @@ use App\Producto as pro;
 use App\ProductoDetalle as prod;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AlmacenController extends Controller
 {

@@ -1,4 +1,4 @@
-@extends('Layout')
+@extends('Home')
 
 @section('Bandeja')
 <style>

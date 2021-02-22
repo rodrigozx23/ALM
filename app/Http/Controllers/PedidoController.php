@@ -5,22 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\PedidoInterface as pedidoI;
 use App\Repositories\PedidoDetalleInterface as pedidodI;
+use App\Repositories\CajaChicaInterface as cajachicaI;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Pedido as ped;
 use App\PedidoDetalle as pedd;
+use App\CajaChica as caj;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 class PedidoController extends Controller
 {
     
     protected $pedidoObject;
     protected $pedidoDetalleObject;
+    protected $cajaChicaObject;
 
-    public function __construct(pedidoI $p, pedidodI $pd)
+    public function __construct(pedidoI $p, pedidodI $pd, cajachicaI $caj)
     {
         $this->pedidoObject = $p;     
         $this->pedidoDetalleObject = $pd;  
+        $this->cajaChicaObject = $caj;
     }
     
     
@@ -119,7 +125,9 @@ class PedidoController extends Controller
     {
         $input =  (json_decode($request->getContent(), true));
 
-        $mytime =Carbon::now();     
+        $mytime =Carbon::now();
+        $user = Auth::user();
+
         $PedidoInsert = new ped;
         $PedidoDetalleInsert = new pedd;
         $PedidoInsert->ped_str_mesa = "Test";
@@ -143,8 +151,8 @@ class PedidoController extends Controller
         $PedidoInsert->ped_int_empresa = 1;
         $PedidoInsert->ped_dat_fecha_creacion = $mytime;
         $PedidoInsert->ped_str_fecha_modificacion = $mytime;
-        $PedidoInsert->ped_str_usuario_creacion = "Admin";
-        $PedidoInsert->ped_str_usuario_modificacion =  "Admin";
+        $PedidoInsert->ped_str_usuario_creacion = $user->name;
+        $PedidoInsert->ped_str_usuario_modificacion =  $user->name;
 
         $this->pedidoObject->create($PedidoInsert->toArray());    
 
@@ -168,8 +176,8 @@ class PedidoController extends Controller
             // AUDITORIA
             $PedidoDetalleInsert->pedd_dat_fecha_creacion = $mytime;
             $PedidoDetalleInsert->pedd_dat_fecha_modificacion = $mytime;
-            $PedidoDetalleInsert->pedd_str_usuario_creacion = "Admin";
-            $PedidoDetalleInsert->pedd_str_usuario_modificacion =  "Admin";
+            $PedidoDetalleInsert->pedd_str_usuario_creacion = $user->name;
+            $PedidoDetalleInsert->pedd_str_usuario_modificacion =  $user->name;
 
             $total_precio_venta += $PedidoDetalleInsert->pedd_dbl_precio;
 
@@ -187,7 +195,7 @@ class PedidoController extends Controller
         $Pedido->ped_dbl_venta_total = $total_precio_venta;// ped_dbl_valor_neto+ped_dbl_isc+ped_dbl_igv+ped_dbl_descuento
         // AUDITORIA                     
         $Pedido->ped_str_fecha_modificacion = $mytime; 
-        $Pedido->ped_str_usuario_modificacion =  "Admin";
+        $Pedido->ped_str_usuario_modificacion = $user->name;
         $this->pedidoObject->update($insertedId, $Pedido->toArray());    
 
         return response()
@@ -225,8 +233,8 @@ class PedidoController extends Controller
      */
     public function sellPedido($id)
     {   
-        $mytime =Carbon::now();     
-        $PedidoInsert = new ped;             
+        $user = Auth::user();
+        $mytime =Carbon::now();       
         //ID
         $insertedId = $id;  
         $Pedido = new ped;
@@ -234,12 +242,12 @@ class PedidoController extends Controller
         $Pedido->ped_int_estado_pedido = 3; //VENDIDO    
         // AUDITORIA                     
         $Pedido->ped_str_fecha_modificacion = $mytime; 
-        $Pedido->ped_str_usuario_modificacion =  "Admin";
+        $Pedido->ped_str_usuario_modificacion =  $user->name;
 
         $this->pedidoObject->update($insertedId, $Pedido->toArray());    
 
-        $PedidoDetalle =  DB::select('CALL SP_CERRAR_PEDIDO (?,?,?)', [$id,"Admin",3] );
-        
+        $PedidoDetalle =  DB::select('CALL SP_CERRAR_PEDIDO (?,?,?)', [$id,$user->name,3] );
+                  
         return response()
             ->json(['data' =>$insertedId], 200);
 
@@ -253,7 +261,9 @@ class PedidoController extends Controller
      */
     public function cancelPedido($id)
     {   
-        $mytime =Carbon::now();     
+        $mytime =Carbon::now(); 
+        $user = Auth::user();
+            
         $PedidoInsert = new ped;             
         //ID
         $insertedId = $id;  
@@ -262,7 +272,7 @@ class PedidoController extends Controller
         $Pedido->ped_int_estado_pedido = 4; //VENDIDO    
         // AUDITORIA                     
         $Pedido->ped_str_fecha_modificacion = $mytime; 
-        $Pedido->ped_str_usuario_modificacion =  "Admin";
+        $Pedido->ped_str_usuario_modificacion =  $user->name;
 
         $this->pedidoObject->update($insertedId, $Pedido->toArray());          
         return response()
